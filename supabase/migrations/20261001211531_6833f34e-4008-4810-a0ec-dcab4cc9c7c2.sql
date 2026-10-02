@@ -1,0 +1,1 @@
+ALTER TABLE public.signups ADD COLUMN IF NOT EXISTS last_name text, ADD COLUMN IF NOT EXISTS phone text;
