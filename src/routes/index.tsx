@@ -1,10 +1,11 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter } from "@/components/site-footer";
 import editorialImage from "@/assets/vettro-editorial.jpg";
-import { createSignup, signupInputSchema } from "@/lib/signups.functions";
+import { signupInputSchema } from "@/lib/signups.functions";
+import { submitLead } from "@/lib/leads.functions";
 import {
   experienceOptions,
   goalOptions,
@@ -85,9 +86,27 @@ function Story() {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Step copy is swapped inside keyed <span>s rather than as bare conditional
+// text: browser translation (e.g. Chrome's) replaces text nodes, and React
+// then crashes removing a node that is no longer there.
+const STEP_COPY = [
+  {
+    title: "Iniziamo dal tuo profilo",
+    subtitle: "Risposte rapide per calibrare il tuo assistente AI.",
+  },
+  {
+    title: "I tuoi mercati",
+    subtitle: "Su quali mercati tradi? Seleziona tutti quelli che ti interessano.",
+  },
+  { title: "Il tuo obiettivo", subtitle: "Cosa vuoi ottenere da Vettro?" },
+  {
+    title: "Ultimo passaggio",
+    subtitle: "Lasciaci nome ed email per vedere il tuo riepilogo personalizzato.",
+  },
+] as const;
+
 function Onboarding() {
-  const navigate = useNavigate();
-  const createSignupFn = useServerFn(createSignup);
+  const submitLeadFn = useServerFn(submitLead);
   const [step, setStep] = useState(0);
   const [experience, setExperience] = useState<Experience | null>(null);
   const [markets, setMarkets] = useState<Market[]>([]);
@@ -96,8 +115,10 @@ function Onboarding() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [consent, setConsent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const copy = STEP_COPY[step] ?? STEP_COPY[0];
 
   const canContinue =
     (step === 0 && experience !== null) ||
@@ -128,6 +149,10 @@ function Onboarding() {
       setError("Inserisci un numero di telefono valido.");
       return;
     }
+    if (!consent) {
+      setError("Per continuare è necessario il consenso al trattamento dei dati.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
     try {
@@ -140,8 +165,14 @@ function Onboarding() {
         markets,
         goal,
       });
-      const res = await createSignupFn({ data: input });
-      await navigate({ to: "/benvenuto", search: { id: res.id } });
+      const res = await submitLeadFn({ data: input });
+      if (!res.ok) {
+        setError("Risulti già registrato: abbiamo già ricevuto una richiesta con questi dati.");
+        setSubmitting(false);
+        return;
+      }
+      // Leave submitting on so the button stays disabled while the browser navigates.
+      window.location.assign(res.autologinUrl);
     } catch {
       setError("Registrazione non riuscita. Controlla i dati e riprova.");
       setSubmitting(false);
@@ -155,17 +186,10 @@ function Onboarding() {
           IL TUO PROFILO · PASSO {step + 1} DI 4
         </span>
         <h2 className="text-balance text-3xl font-semibold mt-3">
-          {step === 0 && "Iniziamo dal tuo profilo"}
-          {step === 1 && "I tuoi mercati"}
-          {step === 2 && "Il tuo obiettivo"}
-          {step === 3 && "Ultimo passaggio"}
+          <span key={step}>{copy.title}</span>
         </h2>
         <p className="text-pretty text-muted-foreground mt-2 max-w-[46ch]">
-          {step === 0 && "Risposte rapide per calibrare il tuo assistente AI."}
-          {step === 1 && "Su quali mercati tradi? Seleziona tutti quelli che ti interessano."}
-          {step === 2 && "Cosa vuoi ottenere da Vettro?"}
-          {step === 3 &&
-            "Lasciaci nome ed email per vedere il tuo riepilogo personalizzato."}
+          <span key={step}>{copy.subtitle}</span>
         </p>
 
         {step === 0 && (
@@ -312,9 +336,25 @@ function Onboarding() {
                 className="mt-2 w-full rounded-xl bg-muted ring-1 ring-border px-4 py-3 text-sm outline-none focus:ring-brand/50 transition-shadow"
               />
             </div>
-            <p className="text-xs text-muted-foreground">
-              Nessuna carta richiesta. Useremo i tuoi dati per mostrare il riepilogo del tuo profilo.
-            </p>
+            <label className="flex items-start gap-3 text-xs text-muted-foreground">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => {
+                  setConsent(e.target.checked);
+                  setError(null);
+                }}
+                className="mt-0.5 size-4 shrink-0 accent-[var(--brand)]"
+              />
+              <span>
+                Acconsento a che i miei dati vengano condivisi con un partner, che potrà contattarmi
+                in merito al servizio, come descritto nella{" "}
+                <a href="/privacy" className="underline hover:text-foreground">
+                  Privacy Policy
+                </a>
+                . Nessuna carta richiesta.
+              </span>
+            </label>
           </div>
         )}
 
@@ -351,7 +391,9 @@ function Onboarding() {
               onClick={submit}
               className="text-sm py-3 px-6 rounded-xl bg-brand text-background font-medium ring-1 ring-brand/60 hover:bg-brand/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              {submitting ? "Creazione…" : "Vedi il mio riepilogo →"}
+              <span key={String(submitting)}>
+                {submitting ? "Creazione…" : "Vedi il mio riepilogo →"}
+              </span>
             </Button>
           )}
         </div>
