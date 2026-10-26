@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SiteFooter } from "@/components/site-footer";
 import editorialImage from "@/assets/vettro-editorial.jpg";
 import { signupInputSchema } from "@/lib/signups.functions";
 import { submitLead } from "@/lib/leads.functions";
+import { getClickId, rememberClickId } from "@/lib/click-id";
 import {
   experienceOptions,
   goalOptions,
@@ -32,7 +33,7 @@ export const Route = createFileRoute("/")({
 function Nav() {
   return (
     <nav className="flex items-center justify-between gap-4 py-6 border-b border-border">
-      <a href="/" className="flex items-center gap-2 text-lg font-semibold" aria-label="Vettro, home">
+      <a href={import.meta.env.BASE_URL} className="flex items-center gap-2 text-lg font-semibold" aria-label="Vettro, home">
         <span className="size-7 rounded-full bg-brand/20 ring-1 ring-brand/40 grid place-items-center"><span className="size-2 rounded-full bg-brand" /></span>
         Vettro
       </a>
@@ -120,6 +121,10 @@ function Onboarding() {
   const [submitting, setSubmitting] = useState(false);
   const copy = STEP_COPY[step] ?? STEP_COPY[0];
 
+  useEffect(() => {
+    rememberClickId();
+  }, []);
+
   const canContinue =
     (step === 0 && experience !== null) ||
     (step === 1 && markets.length > 0) ||
@@ -165,7 +170,7 @@ function Onboarding() {
         markets,
         goal,
       });
-      const res = await submitLeadFn({ data: input });
+      const res = await submitLeadFn({ data: { ...input, clickId: getClickId() } });
       if (!res.ok) {
         setError("Risulti già registrato: abbiamo già ricevuto una richiesta con questi dati.");
         setSubmitting(false);

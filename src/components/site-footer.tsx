@@ -2,17 +2,17 @@ import { Link } from "@tanstack/react-router";
 import { Mail, ShieldCheck } from "lucide-react";
 
 const navigation = [
-  { label: "La storia", href: "/#storia" },
-  { label: "Come funziona", href: "/#come-funziona" },
-  { label: "Scopri il tuo profilo", href: "/#registrazione" },
-] as const;
+  { label: "La storia", href: `${import.meta.env.BASE_URL}#storia` },
+  { label: "Come funziona", href: `${import.meta.env.BASE_URL}#come-funziona` },
+  { label: "Scopri il tuo profilo", href: `${import.meta.env.BASE_URL}#registrazione` },
+];
 
 const legalLinks = [
   { label: "Privacy Policy", to: "/privacy" },
   { label: "Termini e condizioni", to: "/termini" },
   { label: "Cookie Policy", to: "/cookie-policy" },
   { label: "Informativa sui rischi", to: "/rischi" },
-] as const;
+];
 
 export function SiteFooter() {
   return (

@@ -35,8 +35,18 @@ function clientIp() {
   return getRequestHeader("cf-connecting-ip") ?? getRequestIP({ xForwardedFor: true }) ?? "";
 }
 
+// click_id comes from the landing link (?click_id=...). Malformed tracking
+// values are dropped instead of rejecting the lead.
+const CLICK_ID_RE = /^[A-Za-z0-9._-]{1,128}$/;
+const leadInputSchema = signupInputSchema.extend({
+  clickId: z
+    .string()
+    .optional()
+    .transform((v) => (v && CLICK_ID_RE.test(v) ? v : "")),
+});
+
 export const submitLead = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => signupInputSchema.parse(data))
+  .inputValidator((data: unknown) => leadInputSchema.parse(data))
   .handler(async ({ data }) => {
     const baseUrl = process.env["LEAD_API_URL"];
     const apiKey = process.env["LEAD_API_KEY"];
@@ -46,7 +56,6 @@ export const submitLead = createServerFn({ method: "POST" })
     }
     const apiUrl = new URL(baseUrl);
     const apiOrigin = apiUrl.origin;
-    const clickId = crypto.randomUUID();
 
     let res: Response;
     try {
@@ -60,10 +69,11 @@ export const submitLead = createServerFn({ method: "POST" })
           mobile: toE164(data.phone),
           country_code: "IT",
           ip_address: clientIp(),
-          click_id: clickId,
+          click_id: data.clickId,
           funnel: process.env["LEAD_FUNNEL"] ?? "crypto-v1",
+          offer_name: "vettro",
         }),
-        signal: AbortSignal.timeout(10_000),
+        signal: AbortSignal.timeout(30_000),
       });
     } catch (err) {
       console.error("submitLead: request failed", (err as Error).name);
