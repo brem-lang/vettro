@@ -3,6 +3,33 @@ import { getRequestHeader, getRequestIP } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { signupInputSchema } from "@/lib/signups.functions";
 import { PHONE_COUNTRIES, checkPhone } from "@/lib/phone";
+import { checkEmail } from "@/lib/email";
+
+// Can the email's domain receive mail (MX, or A as the RFC 5321 fallback)?
+// Only a definite "no such domain / no records" rejects; timeouts and DNS
+// errors let the lead through so real visitors are never blocked.
+const mailDomainCache = new Map<string, boolean>();
+async function domainReceivesMail(email: string) {
+  const domain = email.slice(email.lastIndexOf("@") + 1);
+  const cached = mailDomainCache.get(domain);
+  if (cached !== undefined) return cached;
+  const dns = await import("node:dns/promises");
+  const lookup = async (type: "MX" | "A") => {
+    try {
+      const records = await (type === "MX" ? dns.resolveMx(domain) : dns.resolve4(domain));
+      return records.length > 0;
+    } catch (err) {
+      const code = (err as { code?: string }).code;
+      return code === "ENOTFOUND" || code === "ENODATA" ? false : null; // null = unknown
+    }
+  };
+  const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), 3000));
+  const mx = await Promise.race([lookup("MX"), timeout]);
+  const result = mx !== false || (await Promise.race([lookup("A"), timeout])) !== false;
+  if (mailDomainCache.size > 5000) mailDomainCache.clear();
+  mailDomainCache.set(domain, result);
+  return result;
+}
 
 const leadResponseSchema = z.object({
   success: z.literal(true),
@@ -69,6 +96,19 @@ export const submitLead = createServerFn({ method: "POST" })
       return { ok: false as const, reason: "phone" as const, phoneReason: phone.reason };
     }
 
+    // Typos are only suggested in the browser (the visitor may confirm); here
+    // format, throwaway, fake and domains that can't receive mail are rejected.
+    const emailCheck = checkEmail(data.email);
+    if (!emailCheck.ok && emailCheck.reason !== "typo") {
+      console.warn(`submitLead: email rejected reason=${emailCheck.reason}`); // reason only, never the address
+      return { ok: false as const, reason: "email" as const, emailReason: emailCheck.reason };
+    }
+    const email = data.email.trim().toLowerCase();
+    if (!(await domainReceivesMail(email))) {
+      console.warn("submitLead: email rejected reason=domain");
+      return { ok: false as const, reason: "email" as const, emailReason: "domain" as const };
+    }
+
     const countryCode = leadCountry();
     // One log line per lead, no key and no personal data.
     const sent = `sent country_code=${countryCode} click_id=${data.clickId || "-"}`;
@@ -81,7 +121,7 @@ export const submitLead = createServerFn({ method: "POST" })
         body: JSON.stringify({
           firstname: data.name,
           lastname: data.lastName,
-          email: data.email,
+          email,
           mobile: phone.e164,
           country_code: countryCode,
           ip_address: clientIp(),

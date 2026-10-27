@@ -10,6 +10,7 @@ import { submitLead } from "@/lib/leads.functions";
 import { getClickId, rememberClickId } from "@/lib/click-id";
 import { useLang, type Lang } from "@/lib/i18n";
 import { PHONE_COUNTRIES, checkPhone, type PhoneCountry, type PhoneReason } from "@/lib/phone";
+import { checkEmail, type EmailReason } from "@/lib/email";
 import {
   experienceOptions,
   goalOptions,
@@ -182,6 +183,10 @@ type FormError =
   | "errName"
   | "errLastName"
   | "errEmail"
+  | "errEmailTypo"
+  | "errEmailDisposable"
+  | "errEmailFake"
+  | "errEmailDomain"
   | "errPhone"
   | "errPhoneLetters"
   | "errPhoneCountry"
@@ -218,7 +223,13 @@ function defaultPhoneCountry(country: string, lang: Lang): PhoneCountry {
 
 const PRIVACY_TITLE: Record<Lang, string> = { it: "Privacy Policy", es: "Política de Privacidad", en: "Privacy Policy" };
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_ERROR: Record<EmailReason, FormError> = {
+  format: "errEmail",
+  typo: "errEmailTypo",
+  disposable: "errEmailDisposable",
+  fake: "errEmailFake",
+  domain: "errEmailDomain",
+};
 
 // Step copy is swapped inside keyed <span>s rather than as bare conditional
 // text: browser translation (e.g. Chrome's) replaces text nodes, and React
@@ -250,7 +261,11 @@ const FORM_COPY = {
   it: {
     errName: "Inserisci il tuo nome.",
     errLastName: "Inserisci il tuo cognome.",
-    errEmail: "Inserisci un indirizzo email valido.",
+    errEmail: "Inserisci un indirizzo e-mail valido.",
+    errEmailTypo: "Intendevi {email}?",
+    errEmailDisposable: "Gli indirizzi e-mail temporanei non sono accettati: usa la tua e-mail personale.",
+    errEmailFake: "Inserisci il tuo vero indirizzo e-mail.",
+    errEmailDomain: "Questo dominio e-mail non esiste: controlla l'indirizzo.",
     errPhone: "Inserisci un numero di cellulare valido.",
     errPhoneLetters: "Il numero di telefono può contenere solo cifre.",
     errPhoneCountry: "Sono accettati solo numeri italiani (+39), spagnoli (+34) o britannici (+44).",
@@ -284,6 +299,10 @@ const FORM_COPY = {
     errName: "Introduce tu nombre.",
     errLastName: "Introduce tu apellido.",
     errEmail: "Introduce un correo electrónico válido.",
+    errEmailTypo: "¿Querías decir {email}?",
+    errEmailDisposable: "No se aceptan direcciones de correo temporales: usa tu correo personal.",
+    errEmailFake: "Introduce tu dirección de correo real.",
+    errEmailDomain: "Este dominio de correo no existe: revisa la dirección.",
     errPhone: "Introduce un número de móvil válido.",
     errPhoneLetters: "El número de teléfono solo puede contener cifras.",
     errPhoneCountry: "Solo se aceptan números italianos (+39), españoles (+34) o británicos (+44).",
@@ -317,6 +336,10 @@ const FORM_COPY = {
     errName: "Please enter your first name.",
     errLastName: "Please enter your last name.",
     errEmail: "Please enter a valid email address.",
+    errEmailTypo: "Did you mean {email}?",
+    errEmailDisposable: "Temporary email addresses aren't accepted: please use your personal email.",
+    errEmailFake: "Please enter your real email address.",
+    errEmailDomain: "This email domain doesn't exist: please check the address.",
     errPhone: "Please enter a valid mobile number.",
     errPhoneLetters: "The phone number can only contain digits.",
     errPhoneCountry: "Only Italian (+39), Spanish (+34) or UK (+44) numbers are accepted.",
@@ -358,6 +381,8 @@ function Onboarding() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [emailSuggestion, setEmailSuggestion] = useState("");
+  const [typoShownFor, setTypoShownFor] = useState("");
   const country = useRouteContext({ from: "__root__", select: (ctx) => ctx.country });
   const [consent, setConsent] = useState(false);
   const [error, setError] = useState<FormError | null>(null);
@@ -399,8 +424,14 @@ function Onboarding() {
       setError("errLastName");
       return;
     }
-    if (!EMAIL_RE.test(email.trim())) {
-      setError("errEmail");
+    const emailCheck = checkEmail(email);
+    // A suggested typo fix is shown once; submitting the same address again keeps it.
+    if (!emailCheck.ok && !(emailCheck.reason === "typo" && typoShownFor === email.trim())) {
+      if (emailCheck.reason === "typo") {
+        setTypoShownFor(email.trim());
+        setEmailSuggestion(emailCheck.suggestion);
+      }
+      setError(EMAIL_ERROR[emailCheck.reason]);
       return;
     }
     const phoneCheck = checkPhone(phone, phoneCountry);
@@ -426,7 +457,13 @@ function Onboarding() {
       });
       const res = await submitLeadFn({ data: { ...input, clickId: getClickId(), phoneCountry } });
       if (!res.ok) {
-        setError(res.reason === "phone" ? PHONE_ERROR[res.phoneReason] : "errDuplicate");
+        setError(
+          res.reason === "phone"
+            ? PHONE_ERROR[res.phoneReason]
+            : res.reason === "email"
+              ? EMAIL_ERROR[res.emailReason]
+              : "errDuplicate",
+        );
         setSubmitting(false);
         return;
       }
@@ -636,7 +673,24 @@ function Onboarding() {
           </div>
         )}
 
-        {error && <p className="mt-4 text-sm text-destructive">{f[error]}</p>}
+        {error === "errEmailTypo" ? (
+          <p className="mt-4 text-sm text-destructive">
+            {f.errEmailTypo.split("{email}")[0]}
+            <button
+              type="button"
+              className="font-semibold underline"
+              onClick={() => {
+                setEmail(emailSuggestion);
+                setError(null);
+              }}
+            >
+              {emailSuggestion}
+            </button>
+            {f.errEmailTypo.split("{email}")[1]}
+          </p>
+        ) : (
+          error && <p className="mt-4 text-sm text-destructive">{f[error]}</p>
+        )}
 
         <div className="flex items-center justify-between gap-4 mt-8 pt-6 border-t border-border">
           {step > 0 ? (
