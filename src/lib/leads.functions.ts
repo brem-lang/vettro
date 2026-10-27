@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeader, getRequestIP } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { signupInputSchema } from "@/lib/signups.functions";
-import { LANGS, LANG_DIAL_CODE, type Lang } from "@/lib/i18n";
+import { PHONE_COUNTRIES, checkPhone } from "@/lib/phone";
 
 const leadResponseSchema = z.object({
   success: z.literal(true),
@@ -18,21 +18,6 @@ function allowedAutologinHosts(apiHost: string) {
     .map((h) => h.trim().toLowerCase())
     .filter(Boolean);
   return new Set([apiHost.toLowerCase(), ...extra]);
-}
-
-// Numbers without an international prefix get the visitor's country prefix
-// when they're in Italy (+39) or Spain (+34), otherwise the page language's
-// (+39 / +34 / +44); everything else is reduced to "+" followed by digits, as
-// the lead API expects.
-function toE164(phone: string, lang: Lang, country: string) {
-  const trimmed = phone.trim();
-  const digits = trimmed.replace(/\D/g, "");
-  if (trimmed.startsWith("+")) return `+${digits}`;
-  if (digits.startsWith("00")) return `+${digits.slice(2)}`;
-  const dialCode = country === "IT" ? "39" : country === "ES" ? "34" : LANG_DIAL_CODE[lang];
-  // UK numbers are often written with a trunk 0 (07700 900123).
-  const national = dialCode === "44" && digits.startsWith("0") ? digits.slice(1) : digits;
-  return `+${dialCode}${national}`;
 }
 
 // Lead country from the visitor's IP (Cloudflare's CF-IPCountry header; the
@@ -59,8 +44,9 @@ const leadInputSchema = signupInputSchema.extend({
     .string()
     .optional()
     .transform((v) => (v && CLICK_ID_RE.test(v) ? v : "")),
-  // Language the visitor submitted in; phone prefix fallback outside IT / ES.
-  lang: z.enum(LANGS).catch("it"),
+  // Prefix the visitor picked next to the phone field (used when they type a
+  // number without +39 / +34 / +44).
+  phoneCountry: z.enum(PHONE_COUNTRIES).catch("IT"),
 });
 
 export const submitLead = createServerFn({ method: "POST" })
@@ -75,6 +61,14 @@ export const submitLead = createServerFn({ method: "POST" })
     const apiUrl = new URL(baseUrl);
     const apiOrigin = apiUrl.origin;
 
+    // Same IT/ES/GB mobile rules as the form; the browser checks first, this
+    // stops anything that skipped it.
+    const phone = checkPhone(data.phone, data.phoneCountry);
+    if (!phone.ok) {
+      console.warn(`submitLead: phone rejected reason=${phone.reason}`); // reason only, never the number
+      return { ok: false as const, reason: "phone" as const, phoneReason: phone.reason };
+    }
+
     const countryCode = leadCountry();
     // One log line per lead, no key and no personal data.
     const sent = `sent country_code=${countryCode} click_id=${data.clickId || "-"}`;
@@ -88,7 +82,7 @@ export const submitLead = createServerFn({ method: "POST" })
           firstname: data.name,
           lastname: data.lastName,
           email: data.email,
-          mobile: toE164(data.phone, data.lang, countryCode),
+          mobile: phone.e164,
           country_code: countryCode,
           ip_address: clientIp(),
           click_id: data.clickId,

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouteContext } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { signupInputSchema } from "@/lib/signups.functions";
 import { submitLead } from "@/lib/leads.functions";
 import { getClickId, rememberClickId } from "@/lib/click-id";
 import { useLang, type Lang } from "@/lib/i18n";
+import { PHONE_COUNTRIES, checkPhone, type PhoneCountry, type PhoneReason } from "@/lib/phone";
 import {
   experienceOptions,
   goalOptions,
@@ -182,9 +183,38 @@ type FormError =
   | "errLastName"
   | "errEmail"
   | "errPhone"
+  | "errPhoneLetters"
+  | "errPhoneCountry"
+  | "errPhoneShort"
+  | "errPhoneLong"
+  | "errPhoneLandline"
   | "errConsent"
   | "errDuplicate"
   | "errGeneric";
+
+const PHONE_ERROR: Record<PhoneReason, FormError> = {
+  letters: "errPhoneLetters",
+  country: "errPhoneCountry",
+  short: "errPhoneShort",
+  long: "errPhoneLong",
+  landline: "errPhoneLandline",
+  invalid: "errPhone",
+};
+
+const PHONE_LABELS: Record<PhoneCountry, string> = { IT: "IT +39", ES: "ES +34", GB: "UK +44" };
+// Example number per prefix (format hint only).
+const PHONE_PLACEHOLDERS: Record<PhoneCountry, string> = {
+  IT: "347 812 9054",
+  ES: "612 905 384",
+  GB: "07911 123456",
+};
+
+// Prefix shown first: the visitor's country if they're in Italy or Spain,
+// otherwise the page language's.
+function defaultPhoneCountry(country: string, lang: Lang): PhoneCountry {
+  if (country === "IT" || country === "ES") return country;
+  return lang === "it" ? "IT" : lang === "es" ? "ES" : "GB";
+}
 
 const PRIVACY_TITLE: Record<Lang, string> = { it: "Privacy Policy", es: "Política de Privacidad", en: "Privacy Policy" };
 
@@ -221,7 +251,12 @@ const FORM_COPY = {
     errName: "Inserisci il tuo nome.",
     errLastName: "Inserisci il tuo cognome.",
     errEmail: "Inserisci un indirizzo email valido.",
-    errPhone: "Inserisci un numero di telefono valido.",
+    errPhone: "Inserisci un numero di cellulare valido.",
+    errPhoneLetters: "Il numero di telefono può contenere solo cifre.",
+    errPhoneCountry: "Sono accettati solo numeri italiani (+39), spagnoli (+34) o britannici (+44).",
+    errPhoneShort: "Il numero di telefono è troppo corto.",
+    errPhoneLong: "Il numero di telefono è troppo lungo.",
+    errPhoneLandline: "Sembra un numero fisso: inserisci un numero di cellulare.",
     errConsent: "Per continuare è necessario il consenso al trattamento dei dati.",
     errDuplicate: "Risulti già registrato: abbiamo già ricevuto una richiesta con questi dati.",
     errGeneric: "Registrazione non riuscita. Controlla i dati e riprova.",
@@ -232,11 +267,11 @@ const FORM_COPY = {
     name: "Nome",
     lastName: "Cognome",
     email: "La tua email",
-    phone: "Numero di telefono",
+    phone: "Numero di cellulare",
+    phoneCountry: "Prefisso",
     phName: "Luca",
     phLastName: "Bianchi",
     phEmail: "nome@email.it",
-    phPhone: "+39 333 123 4567",
     consentBefore: "Acconsento a che i miei dati vengano condivisi con un partner, che potrà contattarmi in merito al servizio, come descritto nella",
     consentAfter: ". Nessuna carta richiesta.",
     back: "← Indietro",
@@ -249,7 +284,12 @@ const FORM_COPY = {
     errName: "Introduce tu nombre.",
     errLastName: "Introduce tu apellido.",
     errEmail: "Introduce un correo electrónico válido.",
-    errPhone: "Introduce un número de teléfono válido.",
+    errPhone: "Introduce un número de móvil válido.",
+    errPhoneLetters: "El número de teléfono solo puede contener cifras.",
+    errPhoneCountry: "Solo se aceptan números italianos (+39), españoles (+34) o británicos (+44).",
+    errPhoneShort: "El número de teléfono es demasiado corto.",
+    errPhoneLong: "El número de teléfono es demasiado largo.",
+    errPhoneLandline: "Parece un número fijo: introduce un número de móvil.",
     errConsent: "Para continuar es necesario el consentimiento para el tratamiento de los datos.",
     errDuplicate: "Ya estás registrado: hemos recibido una solicitud con estos datos.",
     errGeneric: "No se ha podido completar el registro. Revisa los datos e inténtalo de nuevo.",
@@ -260,11 +300,11 @@ const FORM_COPY = {
     name: "Nombre",
     lastName: "Apellido",
     email: "Tu correo electrónico",
-    phone: "Número de teléfono",
+    phone: "Número de móvil",
+    phoneCountry: "Prefijo",
     phName: "Carlos",
     phLastName: "García",
     phEmail: "nombre@email.es",
-    phPhone: "+34 612 345 678",
     consentBefore: "Acepto que mis datos se compartan con un socio, que podrá contactarme en relación con el servicio, tal como se describe en la",
     consentAfter: ". No se requiere tarjeta.",
     back: "← Atrás",
@@ -277,7 +317,12 @@ const FORM_COPY = {
     errName: "Please enter your first name.",
     errLastName: "Please enter your last name.",
     errEmail: "Please enter a valid email address.",
-    errPhone: "Please enter a valid phone number.",
+    errPhone: "Please enter a valid mobile number.",
+    errPhoneLetters: "The phone number can only contain digits.",
+    errPhoneCountry: "Only Italian (+39), Spanish (+34) or UK (+44) numbers are accepted.",
+    errPhoneShort: "The phone number is too short.",
+    errPhoneLong: "The phone number is too long.",
+    errPhoneLandline: "This looks like a landline: please enter a mobile number.",
     errConsent: "To continue, please consent to the processing of your data.",
     errDuplicate: "You're already registered: we've already received a request with these details.",
     errGeneric: "Registration failed. Please check your details and try again.",
@@ -288,11 +333,11 @@ const FORM_COPY = {
     name: "First name",
     lastName: "Last name",
     email: "Your email",
-    phone: "Phone number",
+    phone: "Mobile number",
+    phoneCountry: "Country code",
     phName: "John",
     phLastName: "Smith",
     phEmail: "name@email.com",
-    phPhone: "+44 7700 900123",
     consentBefore: "I agree that my data may be shared with a partner, who may contact me about the service, as described in the",
     consentAfter: ". No card required.",
     back: "← Back",
@@ -313,11 +358,20 @@ function Onboarding() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const country = useRouteContext({ from: "__root__", select: (ctx) => ctx.country });
   const [consent, setConsent] = useState(false);
   const [error, setError] = useState<FormError | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const lang = useLang();
   const f = FORM_COPY[lang];
+  const [phoneCountry, setPhoneCountry] = useState<PhoneCountry>(() =>
+    defaultPhoneCountry(country, lang),
+  );
+  const [phoneCountryTouched, setPhoneCountryTouched] = useState(false);
+  // Follow a language switch until the visitor picks a prefix themselves.
+  useEffect(() => {
+    if (!phoneCountryTouched) setPhoneCountry(defaultPhoneCountry(country, lang));
+  }, [country, lang, phoneCountryTouched]);
   const copy = STEP_COPY[lang][step] ?? STEP_COPY[lang][0];
 
   useEffect(() => {
@@ -349,8 +403,9 @@ function Onboarding() {
       setError("errEmail");
       return;
     }
-    if (!/^[+0-9][0-9\s().-]{5,19}$/.test(phone.trim())) {
-      setError("errPhone");
+    const phoneCheck = checkPhone(phone, phoneCountry);
+    if (!phoneCheck.ok) {
+      setError(PHONE_ERROR[phoneCheck.reason]);
       return;
     }
     if (!consent) {
@@ -369,9 +424,9 @@ function Onboarding() {
         markets,
         goal,
       });
-      const res = await submitLeadFn({ data: { ...input, clickId: getClickId(), lang } });
+      const res = await submitLeadFn({ data: { ...input, clickId: getClickId(), phoneCountry } });
       if (!res.ok) {
-        setError("errDuplicate");
+        setError(res.reason === "phone" ? PHONE_ERROR[res.phoneReason] : "errDuplicate");
         setSubmitting(false);
         return;
       }
@@ -527,18 +582,38 @@ function Onboarding() {
               <label htmlFor="vettro-phone" className="text-sm font-medium">
                 {f.phone}
               </label>
-              <input
-                id="vettro-phone"
-                type="tel"
-                maxLength={20}
-                value={phone}
-                onChange={(e) => {
-                  setPhone(e.target.value);
-                  setError(null);
-                }}
-                placeholder={f.phPhone}
-                className="mt-2 w-full rounded-xl bg-muted ring-1 ring-border px-4 py-3 text-sm outline-none focus:ring-brand/50 transition-shadow"
-              />
+              <div className="mt-2 flex gap-2">
+                <select
+                  aria-label={f.phoneCountry}
+                  value={phoneCountry}
+                  onChange={(e) => {
+                    setPhoneCountry(e.target.value as PhoneCountry);
+                    setPhoneCountryTouched(true);
+                    setError(null);
+                  }}
+                  className="shrink-0 rounded-xl bg-muted ring-1 ring-border px-3 py-3 text-sm outline-none focus:ring-brand/50 transition-shadow"
+                >
+                  {PHONE_COUNTRIES.map((c) => (
+                    <option key={c} value={c}>
+                      {PHONE_LABELS[c]}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  id="vettro-phone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel-national"
+                  maxLength={20}
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    setError(null);
+                  }}
+                  placeholder={PHONE_PLACEHOLDERS[phoneCountry]}
+                  className="min-w-0 flex-1 rounded-xl bg-muted ring-1 ring-border px-4 py-3 text-sm outline-none focus:ring-brand/50 transition-shadow"
+                />
+              </div>
             </div>
             <label className="flex items-start gap-3 text-xs text-muted-foreground">
               <input

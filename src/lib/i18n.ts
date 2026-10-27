@@ -16,9 +16,6 @@ export type Lang = (typeof LANGS)[number];
 export const LANG_NAMES: Record<Lang, string> = { it: "Italiano", es: "Español", en: "English" };
 export const LANG_LOCALES: Record<Lang, string> = { it: "it-IT", es: "es-ES", en: "en-GB" };
 
-// Default phone prefix for numbers typed without one follows the page language.
-export const LANG_DIAL_CODE: Record<Lang, string> = { it: "39", es: "34", en: "44" };
-
 const COOKIE = "site_lang_s";
 // Year-long cookie + localStorage used before; removed on load so old choices
 // don't override the location.
