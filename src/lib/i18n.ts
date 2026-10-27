@@ -1,7 +1,7 @@
 // Site language (IT / ES / EN). Order of precedence:
-//   1. `?lang=xx` in the URL (e.g. for ad campaigns)
-//   2. the visitor's own choice, kept in a `site_lang` cookie shared with the
-//      static sites on this domain
+//   1. `?lang=xx` in the URL (e.g. for ad campaigns); `?lang=auto` clears a choice
+//   2. the visitor's own choice this browser session, kept in a `site_lang_s`
+//      session cookie shared with the static sites on this domain
 //   3. the visitor's country from Cloudflare's CF-IPCountry header
 //      (Italy → it, Spain → es, anything else or unknown → en)
 // The server resolves this on first paint and writes the country into
@@ -19,7 +19,10 @@ export const LANG_LOCALES: Record<Lang, string> = { it: "it-IT", es: "es-ES", en
 // Default phone prefix for numbers typed without one follows the page language.
 export const LANG_DIAL_CODE: Record<Lang, string> = { it: "39", es: "34", en: "44" };
 
-const COOKIE = "site_lang";
+const COOKIE = "site_lang_s";
+// Year-long cookie + localStorage used before; removed on load so old choices
+// don't override the location.
+const OLD_KEY = "site_lang";
 
 function isLang(value: unknown): value is Lang {
   return typeof value === "string" && (LANGS as readonly string[]).includes(value);
@@ -43,30 +46,36 @@ export const readLang = createIsomorphicFn()
   .server((): Lang => {
     const fromUrl = getRequestUrl().searchParams.get("lang");
     if (isLang(fromUrl)) return fromUrl;
-    const fromCookie = getCookie(COOKIE);
-    if (isLang(fromCookie)) return fromCookie;
+    if (fromUrl !== "auto") {
+      const fromCookie = getCookie(COOKIE);
+      if (isLang(fromCookie)) return fromCookie;
+    }
     return langForCountry(readCountry());
   })
   .client((): Lang => {
     const fromUrl = new URLSearchParams(window.location.search).get("lang");
     if (isLang(fromUrl)) return fromUrl;
-    const match = document.cookie.match(/(?:^|;\s*)site_lang=([a-z]{2})/);
-    if (match && isLang(match[1])) return match[1];
-    try {
-      const stored = localStorage.getItem(COOKIE);
-      if (isLang(stored)) return stored;
-    } catch {
-      // Storage can be blocked (private mode); fall back to the country.
+    if (fromUrl !== "auto") {
+      const match = document.cookie.match(/(?:^|;\s*)site_lang_s=([a-z]{2})/);
+      if (match && isLang(match[1])) return match[1];
     }
     return langForCountry(readCountry());
   });
 
 export function saveLang(lang: Lang) {
-  document.cookie = `${COOKIE}=${lang}; path=/; max-age=31536000; SameSite=Lax`;
+  document.cookie = `${COOKIE}=${lang}; path=/; SameSite=Lax`;
+}
+
+// Forget old year-long choices and, for ?lang=auto, this session's choice.
+export function clearOldLang() {
+  document.cookie = `${OLD_KEY}=; path=/; max-age=0; SameSite=Lax`;
   try {
-    localStorage.setItem(COOKIE, lang);
+    localStorage.removeItem(OLD_KEY);
   } catch {
-    // Cookie alone is enough.
+    // Storage can be blocked (private mode); nothing to clear.
+  }
+  if (new URLSearchParams(window.location.search).get("lang") === "auto") {
+    document.cookie = `${COOKIE}=; path=/; max-age=0; SameSite=Lax`;
   }
 }
 

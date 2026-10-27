@@ -13,7 +13,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { readCountry, readLang, type Lang } from "../lib/i18n";
+import { clearOldLang, readCountry, readLang, type Lang } from "../lib/i18n";
 
 const COPY = {
   it: {
@@ -159,6 +159,9 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => {
+    clearOldLang();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
