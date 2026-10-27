@@ -37,10 +37,12 @@ function toE164(phone: string, lang: Lang, country: string) {
 
 // Lead country from the visitor's IP (Cloudflare's CF-IPCountry header; the
 // site only accepts traffic through Cloudflare, which sets it): Italy → IT,
-// Spain → ES, anywhere else or unknown → GB.
+// Spain → ES, anywhere else or unknown → LEAD_COUNTRY_FALLBACK (default GB).
 function leadCountry() {
   const code = (getRequestHeader("cf-ipcountry") ?? "").toUpperCase();
-  return code === "IT" || code === "ES" ? code : "GB";
+  if (code === "IT" || code === "ES") return code;
+  const fallback = process.env["LEAD_COUNTRY_FALLBACK"] ?? "";
+  return /^[A-Z]{2}$/.test(fallback) ? fallback : "GB";
 }
 
 // Cloudflare sets cf-connecting-ip itself, so prefer it over the
@@ -73,6 +75,10 @@ export const submitLead = createServerFn({ method: "POST" })
     const apiUrl = new URL(baseUrl);
     const apiOrigin = apiUrl.origin;
 
+    const countryCode = leadCountry();
+    // One log line per lead, no key and no personal data.
+    const sent = `sent country_code=${countryCode} click_id=${data.clickId || "-"}`;
+
     let res: Response;
     try {
       res = await fetch(`${apiOrigin}/functions/v1/submit-lead-nullypto`, {
@@ -82,8 +88,8 @@ export const submitLead = createServerFn({ method: "POST" })
           firstname: data.name,
           lastname: data.lastName,
           email: data.email,
-          mobile: toE164(data.phone, data.lang, leadCountry()),
-          country_code: leadCountry(),
+          mobile: toE164(data.phone, data.lang, countryCode),
+          country_code: countryCode,
           ip_address: clientIp(),
           click_id: data.clickId,
           funnel: process.env["LEAD_FUNNEL"] ?? "crypto-v1",
@@ -92,7 +98,7 @@ export const submitLead = createServerFn({ method: "POST" })
         signal: AbortSignal.timeout(30_000),
       });
     } catch (err) {
-      console.error("submitLead: request failed", (err as Error).name);
+      console.error(`submitLead: ${sent} → request failed`, (err as Error).name);
       throw new Error("Registrazione non riuscita");
     }
 
@@ -100,6 +106,7 @@ export const submitLead = createServerFn({ method: "POST" })
     // The lead API answers 409 when it already has a lead with this IP, email
     // or phone; tell the visitor instead of showing a generic failure.
     if (res.status === 409) {
+      console.warn(`submitLead: ${sent} → rejected status=409 (duplicate)`);
       return { ok: false as const, reason: "duplicate" as const };
     }
     const parsed = leadResponseSchema.safeParse(body);
@@ -110,7 +117,7 @@ export const submitLead = createServerFn({ method: "POST" })
           ? (body as Record<string, unknown>)[key]
           : undefined;
       const apiErrors = fields("errors");
-      console.error("submitLead: lead API rejected the lead", {
+      console.error(`submitLead: ${sent} → rejected`, {
         status: res.status,
         apiMessage: fields("message"),
         apiErrorFields: apiErrors && typeof apiErrors === "object" ? Object.keys(apiErrors) : [],
@@ -134,5 +141,6 @@ export const submitLead = createServerFn({ method: "POST" })
       throw new Error("Registrazione non riuscita");
     }
 
+    console.log(`submitLead: ${sent} → accepted lead_id=${parsed.data.lead_id ?? "-"}`);
     return { ok: true as const, autologinUrl: autologin.toString() };
   });
