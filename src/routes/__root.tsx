@@ -13,7 +13,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { readLang, type Lang } from "../lib/i18n";
+import { readCountry, readLang, type Lang } from "../lib/i18n";
 
 const COPY = {
   it: {
@@ -109,7 +109,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  beforeLoad: () => ({ lang: readLang() }),
+  beforeLoad: () => ({ lang: readLang(), country: readCountry() }),
   head: ({ match }) => ({
     meta: [
       { charSet: "utf-8" },
@@ -140,9 +140,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
-  const lang = useRouteContext({ from: "__root__", select: (ctx) => ctx.lang });
+  const { lang, country } = useRouteContext({
+    from: "__root__",
+    select: (ctx) => ({ lang: ctx.lang, country: ctx.country }),
+  });
   return (
-    <html lang={lang}>
+    <html lang={lang} data-geo={country}>
       <head>
         <HeadContent />
       </head>

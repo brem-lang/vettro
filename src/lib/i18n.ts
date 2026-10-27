@@ -1,10 +1,14 @@
-// Site language (IT / ES / EN). The choice lives in a `site_lang` cookie so the
-// server renders the right language on first paint; the static sites on the same
-// domain write the same cookie, so one choice carries across all of them.
-// `?lang=xx` in the URL overrides it (e.g. for ad campaigns).
+// Site language (IT / ES / EN). Order of precedence:
+//   1. `?lang=xx` in the URL (e.g. for ad campaigns)
+//   2. the visitor's own choice, kept in a `site_lang` cookie shared with the
+//      static sites on this domain
+//   3. the visitor's country from Cloudflare's CF-IPCountry header
+//      (Italy → it, Spain → es, anything else or unknown → en)
+// The server resolves this on first paint and writes the country into
+// <html data-geo> so client-side navigation reaches the same answer.
 import { useRouteContext, useRouter } from "@tanstack/react-router";
 import { createIsomorphicFn } from "@tanstack/react-start";
-import { getCookie, getRequestUrl } from "@tanstack/react-start/server";
+import { getCookie, getRequestHeader, getRequestUrl } from "@tanstack/react-start/server";
 
 export const LANGS = ["it", "es", "en"] as const;
 export type Lang = (typeof LANGS)[number];
@@ -12,18 +16,37 @@ export type Lang = (typeof LANGS)[number];
 export const LANG_NAMES: Record<Lang, string> = { it: "Italiano", es: "Español", en: "English" };
 export const LANG_LOCALES: Record<Lang, string> = { it: "it-IT", es: "es-ES", en: "en-GB" };
 
+// Lead country and phone prefix follow the language the visitor is using.
+export const LANG_COUNTRY: Record<Lang, string> = { it: "IT", es: "ES", en: "GB" };
+export const LANG_DIAL_CODE: Record<Lang, string> = { it: "39", es: "34", en: "44" };
+
 const COOKIE = "site_lang";
 
 function isLang(value: unknown): value is Lang {
   return typeof value === "string" && (LANGS as readonly string[]).includes(value);
 }
 
+function langForCountry(country: string | undefined): Lang {
+  if (country === "IT") return "it";
+  if (country === "ES") return "es";
+  return "en";
+}
+
+// Two-letter country code, or "" when unknown (no header, Tor "T1", unknown "XX").
+export const readCountry = createIsomorphicFn()
+  .server((): string => {
+    const code = (getRequestHeader("cf-ipcountry") ?? "").toUpperCase();
+    return /^[A-Z]{2}$/.test(code) && code !== "XX" ? code : "";
+  })
+  .client((): string => document.documentElement.dataset["geo"] ?? "");
+
 export const readLang = createIsomorphicFn()
   .server((): Lang => {
     const fromUrl = getRequestUrl().searchParams.get("lang");
     if (isLang(fromUrl)) return fromUrl;
     const fromCookie = getCookie(COOKIE);
-    return isLang(fromCookie) ? fromCookie : "it";
+    if (isLang(fromCookie)) return fromCookie;
+    return langForCountry(readCountry());
   })
   .client((): Lang => {
     const fromUrl = new URLSearchParams(window.location.search).get("lang");
@@ -34,9 +57,9 @@ export const readLang = createIsomorphicFn()
       const stored = localStorage.getItem(COOKIE);
       if (isLang(stored)) return stored;
     } catch {
-      // Storage can be blocked (private mode); fall back to Italian.
+      // Storage can be blocked (private mode); fall back to the country.
     }
-    return "it";
+    return langForCountry(readCountry());
   });
 
 export function saveLang(lang: Lang) {

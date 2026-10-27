@@ -369,7 +369,7 @@ function Onboarding() {
         markets,
         goal,
       });
-      const res = await submitLeadFn({ data: { ...input, clickId: getClickId() } });
+      const res = await submitLeadFn({ data: { ...input, clickId: getClickId(), lang } });
       if (!res.ok) {
         setError("errDuplicate");
         setSubmitting(false);
