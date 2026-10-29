@@ -9,6 +9,8 @@ const COPY = {
   it: { home: "Torna alla home", kicker: "INFORMAZIONI LEGALI", updated: "Ultimo aggiornamento: 2 ottobre 2026" },
   es: { home: "Volver al inicio", kicker: "INFORMACIÓN LEGAL", updated: "Última actualización: 2 de octubre de 2026" },
   en: { home: "Back to home", kicker: "LEGAL INFORMATION", updated: "Last updated: 2 October 2026" },
+  de: { home: "Zur Startseite", kicker: "RECHTLICHE HINWEISE", updated: "Zuletzt aktualisiert: 2. Oktober 2026" },
+  ar: { home: "العودة إلى الصفحة الرئيسية", kicker: "معلومات قانونية", updated: "آخر تحديث: 2 أكتوبر 2026" },
 } satisfies Record<Lang, Record<string, string>>;
 
 export type LegalContent = { title: string; intro: string; body: ReactNode };
@@ -27,7 +29,7 @@ export function LegalPage({ content }: { content: Record<Lang, LegalContent> }) 
           </Link>
           <div className="flex items-center gap-4">
             <Link to="/" className="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
-              <ArrowLeft className="size-4" aria-hidden="true" />
+              <ArrowLeft className="size-4 rtl:-scale-x-100" aria-hidden="true" />
               {c.home}
             </Link>
             <LanguageSwitcher />
@@ -40,7 +42,7 @@ export function LegalPage({ content }: { content: Record<Lang, LegalContent> }) 
         <h1 className="mt-4 text-4xl font-semibold leading-tight sm:text-5xl">{title}</h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{intro}</p>
         <p className="mt-5 text-xs text-muted-foreground">{c.updated}</p>
-        <div className="mt-12 space-y-10 text-base leading-7 text-foreground/85 [&_h2]:mb-3 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-foreground [&_li]:ml-5 [&_li]:list-disc [&_ul]:space-y-2 [&_a]:font-medium [&_a]:text-brand [&_a]:underline [&_a]:underline-offset-4">
+        <div className="mt-12 space-y-10 text-base leading-7 text-foreground/85 [&_h2]:mb-3 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-foreground [&_li]:ms-5 [&_li]:list-disc [&_ul]:space-y-2 [&_a]:font-medium [&_a]:text-brand [&_a]:underline [&_a]:underline-offset-4">
           {body}
         </div>
       </main>

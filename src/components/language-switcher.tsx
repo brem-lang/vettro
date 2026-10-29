@@ -27,10 +27,32 @@ function FlagES({ className }: { className?: string }) {
   );
 }
 
-// Italian and Spanish get their flag; English gets the universal globe.
+function FlagDE({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 5 3" aria-hidden="true" className={className}>
+      <rect width="5" height="1" fill="#000" />
+      <rect y="1" width="5" height="1" fill="#dd0000" />
+      <rect y="2" width="5" height="1" fill="#ffce00" />
+    </svg>
+  );
+}
+
+function FlagSA({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 3 2" aria-hidden="true" className={className}>
+      <rect width="3" height="2" fill="#006c35" />
+      <rect x=".9" y=".55" width="1.2" height=".2" rx=".05" fill="#fff" />
+      <rect x=".9" y="1.05" width="1.2" height=".08" fill="#fff" />
+    </svg>
+  );
+}
+
+const FLAGS = { it: FlagIT, es: FlagES, de: FlagDE, ar: FlagSA };
+
+// Each language gets its flag; English gets the universal globe.
 export function LanguageIcon({ lang, className }: { lang: Lang; className?: string }) {
   if (lang === "en") return <Globe aria-hidden="true" className={cn("size-4", className)} />;
-  const Flag = lang === "it" ? FlagIT : FlagES;
+  const Flag = FLAGS[lang];
   return <Flag className={cn("h-3.5 w-5 rounded-[2px] ring-1 ring-foreground/10", className)} />;
 }
 
@@ -58,7 +80,7 @@ export function LanguageSwitcher() {
           >
             <LanguageIcon lang={option} />
             <span>{LANG_NAMES[option]}</span>
-            {option === lang && <Check aria-hidden="true" className="ml-auto size-4" />}
+            {option === lang && <Check aria-hidden="true" className="ms-auto size-4" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

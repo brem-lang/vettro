@@ -39,7 +39,7 @@
   --color-ring: var(--ring);
   --color-brand: var(--brand);
   --color-skyglow: var(--skyglow);
-  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 

@@ -40,6 +40,30 @@ const COPY = {
     rights: "© 2026 Vettro. All rights reserved.",
     promo: "Promotional content from Vettro. Not a news publication.",
   },
+  de: {
+    nav: ["Die Geschichte", "So funktioniert es", "Entdecke dein Profil"],
+    legal: ["Datenschutzerklärung", "Allgemeine Geschäftsbedingungen", "Cookie-Richtlinie", "Risikohinweis"],
+    tagline: "Ein Informationswerkzeug, um deine Marktanalyse zu strukturieren, über Risiken nachzudenken und bewusstere Entscheidungen zu treffen.",
+    contact: "Kontakt: wird aktualisiert",
+    explore: "Entdecken",
+    legalTitle: "Rechtliche Hinweise",
+    riskTitle: "Risikowarnung",
+    risk: "Trading und Investitionen sind mit einem hohen Risiko verbunden, einschließlich des möglichen Totalverlusts des Kapitals. Vettro bietet keine Finanz-, Steuer- oder Rechtsberatung, führt keine Geschäfte im Namen der Nutzer aus und garantiert keine Ergebnisse oder Renditen. Die veröffentlichten Informationen dienen ausschließlich Informations- und Bildungszwecken. Prüfe deine eigene Situation und wende dich bei Bedarf an eine zugelassene Fachperson, bevor du finanzielle Entscheidungen triffst.",
+    rights: "© 2026 Vettro. Alle Rechte vorbehalten.",
+    promo: "Werbeinhalt von Vettro. Keine journalistische Publikation.",
+  },
+  ar: {
+    nav: ["القصة", "كيف يعمل", "اكتشف ملفك"],
+    legal: ["سياسة الخصوصية", "الشروط والأحكام", "سياسة ملفات تعريف الارتباط", "بيان المخاطر"],
+    tagline: "أداة معلوماتية لتنظيم تحليلك للأسواق، والتفكير في المخاطر، واتخاذ قرارات أكثر وعيًا.",
+    contact: "وسيلة التواصل: قيد التحديث",
+    explore: "استكشف",
+    legalTitle: "معلومات قانونية",
+    riskTitle: "تحذير من المخاطر",
+    risk: "ينطوي التداول والاستثمار على مخاطر عالية، بما في ذلك احتمال خسارة رأس المال بالكامل. لا يقدّم Vettro استشارات مالية أو ضريبية أو قانونية، ولا ينفّذ صفقات نيابةً عن المستخدمين، ولا يضمن أي نتائج أو عوائد. المعلومات المنشورة لأغراض إعلامية وتعليمية فقط. قيّم وضعك الخاص، واستشر عند الحاجة مختصًا مرخّصًا قبل اتخاذ أي قرارات مالية.",
+    rights: "© 2026 Vettro. جميع الحقوق محفوظة.",
+    promo: "محتوى ترويجي من Vettro. ليس منشورًا إخباريًا.",
+  },
 } satisfies Record<Lang, { nav: string[]; legal: string[]; [key: string]: string | string[] }>;
 
 const navigation = [

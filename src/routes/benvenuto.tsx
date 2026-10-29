@@ -76,6 +76,46 @@ const COPY = {
     markets: "Markets",
     risk: "Trading carries the risk of losing the capital you invest. Vettro is not a financial adviser.",
   },
+  de: {
+    metaTitle: "Dein Profil — Vettro",
+    metaDescription: "Sieh dir die persönliche Zusammenfassung deines Vettro-Tradingprofils an.",
+    ogDescription: "Eine Zusammenfassung deiner Antworten zum Vettro-Tradingprofil.",
+    loading: "Dein Profil wird vorbereitet…",
+    errorTitle: "Etwas ist schiefgelaufen",
+    errorText: "Wir können dein Profil nicht laden. Bitte versuche es erneut über die Startseite.",
+    home: "Zur Startseite",
+    notFoundTitle: "Profil nicht gefunden",
+    notFoundText: "Dieser Link ist ungültig oder abgelaufen. Du kannst dich über die Startseite erneut registrieren.",
+    saved: "Profil gespeichert",
+    welcome: "Willkommen bei Vettro,",
+    intro: "Hier ist eine unverbindliche Zusammenfassung auf Grundlage deiner Antworten. Sie ist keine Anlageempfehlung.",
+    path: "Empfohlener Weg",
+    experience: "Erfahrungsstufe",
+    approach: "Unverbindlicher Ansatz",
+    goal: "Ziel",
+    markets: "Märkte",
+    risk: "Trading birgt das Risiko, das investierte Kapital zu verlieren. Vettro ist kein Finanzberater.",
+  },
+  ar: {
+    metaTitle: "ملفك — Vettro",
+    metaDescription: "اطّلع على الملخص المخصّص لملف التداول الخاص بك في Vettro.",
+    ogDescription: "ملخص لإجاباتك في ملف التداول على Vettro.",
+    loading: "جارٍ إعداد ملفك…",
+    errorTitle: "حدث خطأ ما",
+    errorText: "تعذّر تحميل ملفك. يُرجى المحاولة مرة أخرى من الصفحة الرئيسية.",
+    home: "العودة إلى الصفحة الرئيسية",
+    notFoundTitle: "الملف غير موجود",
+    notFoundText: "هذا الرابط غير صالح أو منتهي الصلاحية. يمكنك التسجيل مرة أخرى من الصفحة الرئيسية.",
+    saved: "تم حفظ الملف",
+    welcome: "مرحبًا بك في Vettro،",
+    intro: "إليك ملخصًا استرشاديًا بناءً على إجاباتك. وهو ليس توصية استثمارية.",
+    path: "المسار المقترح",
+    experience: "مستوى الخبرة",
+    approach: "النهج الاسترشادي",
+    goal: "الهدف",
+    markets: "الأسواق",
+    risk: "ينطوي التداول على خطر خسارة رأس المال الذي تستثمره. Vettro ليس مستشارًا ماليًا.",
+  },
 } satisfies Record<Lang, Record<string, string>>;
 
 export const Route = createFileRoute("/benvenuto")({
@@ -192,21 +232,21 @@ function SignupSummary({ signup }: { signup: SignupRow }) {
       <div className="mt-4 space-y-3">
         <div className="rounded-xl bg-muted ring-1 ring-border px-4 py-3 flex justify-between gap-4">
           <span className="text-sm text-muted-foreground">{c.experience}</span>
-          <span className="text-sm font-medium text-right">
+          <span className="text-sm font-medium text-end">
             {experienceLabels[lang][experience] ?? signup.experience}
           </span>
         </div>
         <div className="rounded-xl bg-muted ring-1 ring-border px-4 py-3 flex justify-between gap-4">
           <span className="text-sm text-muted-foreground">{c.approach}</span>
-          <span className="text-sm font-medium text-right">{riskProfile(experience, lang)}</span>
+          <span className="text-sm font-medium text-end">{riskProfile(experience, lang)}</span>
         </div>
         <div className="rounded-xl bg-muted ring-1 ring-border px-4 py-3 flex justify-between gap-4">
           <span className="text-sm text-muted-foreground">{c.goal}</span>
-          <span className="text-sm font-medium text-right">{goalLabels[lang][goal] ?? signup.goal}</span>
+          <span className="text-sm font-medium text-end">{goalLabels[lang][goal] ?? signup.goal}</span>
         </div>
         <div className="rounded-xl bg-muted ring-1 ring-border px-4 py-3 flex justify-between gap-4">
           <span className="text-sm text-muted-foreground">{c.markets}</span>
-          <span className="text-sm font-medium text-right">
+          <span className="text-sm font-medium text-end">
             {markets.map((m) => marketLabels[lang][m] ?? m).join(", ")}
           </span>
         </div>

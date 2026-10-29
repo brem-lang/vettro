@@ -99,6 +99,58 @@ const COPY = {
     ctaText: "A few questions for a summary built on your answers.",
     ctaButton: "Discover your profile →",
   },
+  de: {
+    metaTitle: "Vettro — Ein Leitfaden zur Marktanalyse mit KI",
+    metaDescription: "Erfahre, wie ein KI-Assistent dir helfen kann, die Märkte zu lesen, deine Entscheidungen zu ordnen und über Risiken nachzudenken. Entdecke dein Trading-Profil mit Vettro.",
+    ogDescription: "Eine Geschichte über Marktanalyse, Trading-Entscheidungen und Risikomanagement mit Vettro.",
+    navStory: "Die Geschichte",
+    navHow: "So funktioniert es",
+    navStart: "Loslegen",
+    h1: "Trading verändert sich, wenn du beginnst, die Märkte mit mehr Methode zu lesen.",
+    lead: "Zwischen Nachrichten, Charts und schnellen Entscheidungen verliert man leicht den Überblick. Das ist die Idee hinter Vettro: KI als Unterstützung zu nutzen, um Informationen zu analysieren, und dabei das Risiko immer im Blick zu behalten.",
+    byline: "Eine Vettro-Geschichte",
+    kicker: "Ein genauerer Blick auf KI-gestütztes Trading",
+    imageAlt: "Roboter mit künstlicher Intelligenz analysiert bewegte Marktcharts",
+    imageCaption: "Symbolbild. Es zeigt keine echten Ergebnisse von Vettro.",
+    p1: "Ein Trader schaltet morgens seinen Computer ein. Auf dem Bildschirm sind sich ändernde Kurse, Indikatoren, Nachrichten und eine Liste von Instrumenten, die er verfolgen will. Das Schwierige ist nicht, mehr Daten zu finden, sondern herauszufinden, welche Daten für die anstehende Entscheidung wirklich zählen.",
+    p2: "Daraus entstand die Idee für Vettro. Statt eine Abkürzung zum Gewinn zu versprechen, bietet es eine geordnetere Art, den Markt zu betrachten: ein Ziel festlegen, die Märkte wählen, die dich interessieren, und vor jedem Trade das Risiko abwägen.",
+    h2How: "Wie kann dir ein KI-Assistent helfen?",
+    p3: "Ein Assistent kann Informationen aus Kursen, Trends und Nachrichten ordnen, Bewegungen hervorheben, die einen genaueren Blick verdienen, und dir helfen, bessere Fragen zu stellen. Seine Aufgabe ist es, dir Kontext für eine bewusstere Entscheidung zu geben, nicht für dich zu entscheiden.",
+    p4: "Der Ausgangspunkt ist immer persönlich. Wer gerade die ersten Schritte macht, hat andere Bedürfnisse als jemand, der täglich mehrere Märkte verfolgt. Ebenso erfordern Kapitalschutz und die Suche nach neuen Chancen unterschiedliche Prioritäten.",
+    quote: "„Bevor du nach einem Signal suchst, sei dir im Klaren darüber, wie viel Risiko du eingehen willst.“",
+    h2Example: "Ein Beispiel, ohne Renditeversprechen",
+    p5: "Stell dir vor, du verfolgst Aktien und Währungen. Eine unerwartete Nachricht bewegt beide Märkte gleichzeitig. Ein klares Bild kann dir helfen, die Bewegungen zu vergleichen, deine Annahmen zu überprüfen und zu fragen, ob der Trade zu deinem Plan passt.",
+    p6: "Dieses Beispiel dient nur der Veranschaulichung: Es ist weder ein Leistungstest noch ein Gewinnnachweis. Kein System kann den Markt mit Sicherheit vorhersagen oder Verluste ausschließen. Zum Wert einer Methode gehört auch, zu wissen, wann man aufhören sollte.",
+    ctaTitle: "Beginne mit deinem Profil",
+    ctaText: "Ein paar Fragen für eine Zusammenfassung auf Grundlage deiner Antworten.",
+    ctaButton: "Entdecke dein Profil →",
+  },
+  ar: {
+    metaTitle: "Vettro — دليل لتحليل الأسواق بالذكاء الاصطناعي",
+    metaDescription: "اكتشف كيف يمكن لمساعد ذكاء اصطناعي أن يساعدك على قراءة الأسواق وتنظيم قراراتك والتفكير في المخاطر. استكشف ملف التداول الخاص بك مع Vettro.",
+    ogDescription: "قصة عن تحليل الأسواق وقرارات التداول وإدارة المخاطر مع Vettro.",
+    navStory: "القصة",
+    navHow: "كيف يعمل",
+    navStart: "ابدأ",
+    h1: "يتغيّر التداول عندما تبدأ بقراءة الأسواق بمنهجية أكبر.",
+    lead: "بين الأخبار والرسوم البيانية والقرارات السريعة، من السهل أن تغيب عنك الصورة الكاملة. وهذه هي الفكرة وراء Vettro: استخدام الذكاء الاصطناعي كأداة مساندة لتحليل المعلومات مع إبقاء المخاطر في صدارة الاهتمام.",
+    byline: "قصة من Vettro",
+    kicker: "نظرة أقرب على التداول بمساعدة الذكاء الاصطناعي",
+    imageAlt: "روبوت ذكاء اصطناعي يحلّل رسومًا بيانية متحرّكة للأسواق",
+    imageCaption: "صورة توضيحية. لا تُظهر نتائج حقيقية لـ Vettro.",
+    p1: "يفتح أحد المتداولين حاسوبه في الصباح. على الشاشة أسعار متغيّرة ومؤشرات وأخبار وقائمة بالأدوات التي يتابعها. الصعوبة ليست في العثور على المزيد من البيانات، بل في معرفة أي البيانات تهمّ فعلًا للقرار الذي يوشك على اتخاذه.",
+    p2: "من هنا جاءت فكرة Vettro. بدلًا من الوعد بطريق مختصر إلى الربح، يقدّم طريقة أكثر تنظيمًا للنظر إلى السوق: حدّد هدفًا، واختر الأسواق التي تهمّك، وفكّر في المخاطر قبل كل صفقة.",
+    h2How: "كيف يمكن لمساعد ذكاء اصطناعي أن يساعدك؟",
+    p3: "يمكن للمساعد تنظيم المعلومات المستمدة من الأسعار والاتجاهات والأخبار، وإبراز التحركات التي تستحق نظرة أقرب، ومساعدتك على طرح أسئلة أفضل. ودوره أن يمنحك سياقًا لاختيار أكثر وعيًا، لا أن يقرّر نيابةً عنك.",
+    p4: "نقطة البداية شخصية دائمًا. فمن يخطو خطواته الأولى له احتياجات تختلف عن احتياجات من يتابع عدة أسواق يوميًا. وبالمثل، تتطلّب حماية رأس المال والبحث عن فرص جديدة أولويات مختلفة.",
+    quote: "«قبل أن تبحث عن إشارة، كن واضحًا بشأن حجم المخاطرة التي أنت مستعد لتحمّلها.»",
+    h2Example: "مثال، دون أي وعد بعوائد",
+    p5: "تخيّل أنك تتابع الأسهم والعملات. خبر غير متوقّع يحرّك السوقين في الوقت نفسه. يمكن لصورة واضحة أن تساعدك على مقارنة التحركات، ومراجعة افتراضاتك، والتساؤل عمّا إذا كانت الصفقة تتوافق مع خطتك.",
+    p6: "هذا المثال توضيحي: ليس اختبارًا للأداء ولا دليلًا على الأرباح. لا يمكن لأي نظام التنبؤ بالسوق بيقين أو إلغاء الخسائر. وجزء من قيمة المنهجية هو معرفة متى تتوقّف.",
+    ctaTitle: "ابدأ بملفك",
+    ctaText: "بضعة أسئلة للحصول على ملخص مبني على إجاباتك.",
+    ctaButton: "اكتشف ملفك ←",
+  },
 } satisfies Record<Lang, Record<string, string>>;
 
 export const Route = createFileRoute("/")({
@@ -165,7 +217,7 @@ function Story() {
         <h2 className="text-3xl font-semibold leading-tight pt-6" id="come-funziona">{c.h2How}</h2>
         <p>{c.p3}</p>
         <p>{c.p4}</p>
-        <div className="border-l-2 border-brand pl-5 py-1 my-9 text-xl font-medium text-foreground">{c.quote}</div>
+        <div className="border-s-2 border-brand ps-5 py-1 my-9 text-xl font-medium text-foreground">{c.quote}</div>
         <h2 className="text-3xl font-semibold leading-tight pt-6">{c.h2Example}</h2>
         <p>{c.p5}</p>
         <p>{c.p6}</p>
@@ -206,22 +258,38 @@ const PHONE_ERROR: Record<PhoneReason, FormError> = {
   invalid: "errPhone",
 };
 
-const PHONE_LABELS: Record<PhoneCountry, string> = { IT: "IT +39", ES: "ES +34", GB: "UK +44" };
+const PHONE_LABELS: Record<PhoneCountry, string> = {
+  IT: "IT +39",
+  ES: "ES +34",
+  GB: "UK +44",
+  DE: "DE +49",
+  SA: "SA +966",
+};
 // Example number per prefix (format hint only).
 const PHONE_PLACEHOLDERS: Record<PhoneCountry, string> = {
   IT: "347 812 9054",
   ES: "612 905 384",
   GB: "07911 123456",
+  DE: "0151 23456789",
+  SA: "050 123 4567",
 };
 
-// Prefix shown first: the visitor's country if they're in Italy or Spain,
+const LANG_PHONE_COUNTRY: Record<Lang, PhoneCountry> = { it: "IT", es: "ES", en: "GB", de: "DE", ar: "SA" };
+
+// Prefix shown first: the visitor's country if it has one in the list,
 // otherwise the page language's.
 function defaultPhoneCountry(country: string, lang: Lang): PhoneCountry {
-  if (country === "IT" || country === "ES") return country;
-  return lang === "it" ? "IT" : lang === "es" ? "ES" : "GB";
+  if ((PHONE_COUNTRIES as readonly string[]).includes(country)) return country as PhoneCountry;
+  return LANG_PHONE_COUNTRY[lang];
 }
 
-const PRIVACY_TITLE: Record<Lang, string> = { it: "Privacy Policy", es: "Política de Privacidad", en: "Privacy Policy" };
+const PRIVACY_TITLE: Record<Lang, string> = {
+  it: "Privacy Policy",
+  es: "Política de Privacidad",
+  en: "Privacy Policy",
+  de: "Datenschutzerklärung",
+  ar: "سياسة الخصوصية",
+};
 
 const EMAIL_ERROR: Record<EmailReason, FormError> = {
   format: "errEmail",
@@ -255,6 +323,18 @@ const STEP_COPY: Record<Lang, readonly [StepCopy, StepCopy, StepCopy, StepCopy]>
     { title: "Your goal", subtitle: "What do you want to achieve with Vettro?" },
     { title: "Last step", subtitle: "Leave your name and email to see your personalised summary." },
   ],
+  de: [
+    { title: "Beginnen wir mit deinem Profil", subtitle: "Kurze Antworten, um deinen KI-Assistenten abzustimmen." },
+    { title: "Deine Märkte", subtitle: "Auf welchen Märkten tradest du? Wähle alle aus, die dich interessieren." },
+    { title: "Dein Ziel", subtitle: "Was möchtest du mit Vettro erreichen?" },
+    { title: "Letzter Schritt", subtitle: "Hinterlasse uns Namen und E-Mail, um deine persönliche Zusammenfassung zu sehen." },
+  ],
+  ar: [
+    { title: "لنبدأ بملفك", subtitle: "إجابات سريعة لضبط مساعدك بالذكاء الاصطناعي." },
+    { title: "أسواقك", subtitle: "في أي الأسواق تتداول؟ اختر كل ما يهمّك." },
+    { title: "هدفك", subtitle: "ما الذي تريد تحقيقه مع Vettro؟" },
+    { title: "الخطوة الأخيرة", subtitle: "اترك لنا اسمك وبريدك الإلكتروني لترى ملخصك المخصّص." },
+  ],
 };
 
 const FORM_COPY = {
@@ -268,7 +348,7 @@ const FORM_COPY = {
     errEmailDomain: "Questo dominio e-mail non esiste: controlla l'indirizzo.",
     errPhone: "Inserisci un numero di cellulare valido.",
     errPhoneLetters: "Il numero di telefono può contenere solo cifre.",
-    errPhoneCountry: "Sono accettati solo numeri italiani (+39), spagnoli (+34) o britannici (+44).",
+    errPhoneCountry: "Sono accettati solo numeri italiani (+39), spagnoli (+34), britannici (+44), tedeschi (+49) o sauditi (+966).",
     errPhoneShort: "Il numero di telefono è troppo corto.",
     errPhoneLong: "Il numero di telefono è troppo lungo.",
     errPhoneLandline: "Sembra un numero fisso: inserisci un numero di cellulare.",
@@ -305,7 +385,7 @@ const FORM_COPY = {
     errEmailDomain: "Este dominio de correo no existe: revisa la dirección.",
     errPhone: "Introduce un número de móvil válido.",
     errPhoneLetters: "El número de teléfono solo puede contener cifras.",
-    errPhoneCountry: "Solo se aceptan números italianos (+39), españoles (+34) o británicos (+44).",
+    errPhoneCountry: "Solo se aceptan números italianos (+39), españoles (+34), británicos (+44), alemanes (+49) o saudíes (+966).",
     errPhoneShort: "El número de teléfono es demasiado corto.",
     errPhoneLong: "El número de teléfono es demasiado largo.",
     errPhoneLandline: "Parece un número fijo: introduce un número de móvil.",
@@ -342,7 +422,7 @@ const FORM_COPY = {
     errEmailDomain: "This email domain doesn't exist: please check the address.",
     errPhone: "Please enter a valid mobile number.",
     errPhoneLetters: "The phone number can only contain digits.",
-    errPhoneCountry: "Only Italian (+39), Spanish (+34) or UK (+44) numbers are accepted.",
+    errPhoneCountry: "Only Italian (+39), Spanish (+34), UK (+44), German (+49) or Saudi (+966) numbers are accepted.",
     errPhoneShort: "The phone number is too short.",
     errPhoneLong: "The phone number is too long.",
     errPhoneLandline: "This looks like a landline: please enter a mobile number.",
@@ -368,6 +448,80 @@ const FORM_COPY = {
     next: "Continue →",
     submitting: "Creating…",
     submit: "See my summary →",
+  },
+  de: {
+    errName: "Bitte gib deinen Vornamen ein.",
+    errLastName: "Bitte gib deinen Nachnamen ein.",
+    errEmail: "Bitte gib eine gültige E-Mail-Adresse ein.",
+    errEmailTypo: "Meintest du {email}?",
+    errEmailDisposable: "Temporäre E-Mail-Adressen werden nicht akzeptiert: Bitte verwende deine persönliche E-Mail-Adresse.",
+    errEmailFake: "Bitte gib deine echte E-Mail-Adresse ein.",
+    errEmailDomain: "Diese E-Mail-Domain existiert nicht: Bitte überprüfe die Adresse.",
+    errPhone: "Bitte gib eine gültige Mobilnummer ein.",
+    errPhoneLetters: "Die Telefonnummer darf nur Ziffern enthalten.",
+    errPhoneCountry: "Es werden nur italienische (+39), spanische (+34), britische (+44), deutsche (+49) oder saudische (+966) Nummern akzeptiert.",
+    errPhoneShort: "Die Telefonnummer ist zu kurz.",
+    errPhoneLong: "Die Telefonnummer ist zu lang.",
+    errPhoneLandline: "Das sieht nach einer Festnetznummer aus: Bitte gib eine Mobilnummer ein.",
+    errConsent: "Um fortzufahren, stimme bitte der Verarbeitung deiner Daten zu.",
+    errDuplicate: "Du bist bereits registriert: Wir haben bereits eine Anfrage mit diesen Daten erhalten.",
+    errGeneric: "Die Registrierung ist fehlgeschlagen. Bitte überprüfe deine Angaben und versuche es erneut.",
+    stepLabel: (n: number) => `DEIN PROFIL · SCHRITT ${n} VON 4`,
+    qExperience: "Wie viel Erfahrung hast du?",
+    qMarkets: "Auf welchen Märkten tradest du?",
+    qGoal: "Was ist dein Hauptziel?",
+    name: "Vorname",
+    lastName: "Nachname",
+    email: "Deine E-Mail",
+    phone: "Mobilnummer",
+    phoneCountry: "Ländervorwahl",
+    phName: "Max",
+    phLastName: "Mustermann",
+    phEmail: "name@email.com",
+    consentBefore: "Ich bin damit einverstanden, dass meine Daten an einen Partner weitergegeben werden, der mich bezüglich des Dienstes kontaktieren kann, wie beschrieben in der",
+    consentAfter: ". Keine Kreditkarte erforderlich.",
+    back: "← Zurück",
+    fourAnswers: "Nur 4 Antworten, um loszulegen.",
+    next: "Weiter →",
+    submitting: "Wird erstellt…",
+    submit: "Meine Zusammenfassung ansehen →",
+  },
+  ar: {
+    errName: "يُرجى إدخال اسمك الأول.",
+    errLastName: "يُرجى إدخال اسم العائلة.",
+    errEmail: "يُرجى إدخال عنوان بريد إلكتروني صالح.",
+    errEmailTypo: "هل تقصد {email}؟",
+    errEmailDisposable: "لا تُقبل عناوين البريد الإلكتروني المؤقتة: يُرجى استخدام بريدك الإلكتروني الشخصي.",
+    errEmailFake: "يُرجى إدخال عنوان بريدك الإلكتروني الحقيقي.",
+    errEmailDomain: "نطاق البريد الإلكتروني هذا غير موجود: يُرجى التحقق من العنوان.",
+    errPhone: "يُرجى إدخال رقم جوال صالح.",
+    errPhoneLetters: "يجب أن يحتوي رقم الهاتف على أرقام فقط.",
+    errPhoneCountry: "تُقبل فقط الأرقام الإيطالية (+39) أو الإسبانية (+34) أو البريطانية (+44) أو الألمانية (+49) أو السعودية (+966).",
+    errPhoneShort: "رقم الهاتف قصير جدًا.",
+    errPhoneLong: "رقم الهاتف طويل جدًا.",
+    errPhoneLandline: "يبدو هذا رقمًا أرضيًا: يُرجى إدخال رقم جوال.",
+    errConsent: "للمتابعة، يُرجى الموافقة على معالجة بياناتك.",
+    errDuplicate: "أنت مسجّل بالفعل: لقد تلقّينا طلبًا بهذه البيانات مسبقًا.",
+    errGeneric: "تعذّر التسجيل. يُرجى التحقق من بياناتك والمحاولة مرة أخرى.",
+    stepLabel: (n: number) => `ملفك · الخطوة ${n} من 4`,
+    qExperience: "ما مستوى خبرتك؟",
+    qMarkets: "في أي الأسواق تتداول؟",
+    qGoal: "ما هدفك الرئيسي؟",
+    name: "الاسم الأول",
+    lastName: "اسم العائلة",
+    email: "بريدك الإلكتروني",
+    phone: "رقم الجوال",
+    phoneCountry: "رمز الدولة",
+    phName: "محمد",
+    phLastName: "العتيبي",
+    phEmail: "name@email.com",
+    consentBefore: "أوافق على مشاركة بياناتي مع شريك قد يتواصل معي بشأن الخدمة، كما هو موضّح في",
+    consentAfter: ". لا حاجة إلى بطاقة.",
+    back: "→ رجوع",
+    fourAnswers: "4 إجابات فقط للبدء.",
+    next: "متابعة ←",
+    submitting: "جارٍ الإنشاء…",
+    submit: "اعرض ملخصي ←",
   },
 };
 
@@ -547,7 +701,7 @@ function Onboarding() {
                     setGoal(opt.value);
                     setError(null);
                   }}
-                  className={`text-sm py-3 px-4 rounded-xl ring-1 text-left font-medium transition-colors ${
+                  className={`text-sm py-3 px-4 rounded-xl ring-1 text-start font-medium transition-colors ${
                     goal === opt.value
                       ? "ring-brand/40 bg-brand/10 text-foreground"
                       : "ring-border bg-muted text-muted-foreground hover:bg-accent"
@@ -622,6 +776,7 @@ function Onboarding() {
               <div className="mt-2 flex gap-2">
                 <select
                   aria-label={f.phoneCountry}
+                  dir="ltr"
                   value={phoneCountry}
                   onChange={(e) => {
                     setPhoneCountry(e.target.value as PhoneCountry);
@@ -648,6 +803,7 @@ function Onboarding() {
                     setError(null);
                   }}
                   placeholder={PHONE_PLACEHOLDERS[phoneCountry]}
+                  dir="ltr"
                   className="min-w-0 flex-1 rounded-xl bg-muted ring-1 ring-border px-4 py-3 text-sm outline-none focus:ring-brand/50 transition-shadow"
                 />
               </div>

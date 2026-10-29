@@ -9,6 +9,8 @@ export const experienceLabels: Record<Lang, Record<Experience, string>> = {
   it: { principiante: "Principiante", intermedio: "Intermedio", avanzato: "Avanzato" },
   es: { principiante: "Principiante", intermedio: "Intermedio", avanzato: "Avanzado" },
   en: { principiante: "Beginner", intermedio: "Intermediate", avanzato: "Advanced" },
+  de: { principiante: "Anfänger", intermedio: "Fortgeschritten", avanzato: "Experte" },
+  ar: { principiante: "مبتدئ", intermedio: "متوسط", avanzato: "متقدّم" },
 };
 
 export const marketLabels: Record<Lang, Record<Market, string>> = {
@@ -33,6 +35,20 @@ export const marketLabels: Record<Lang, Record<Market, string>> = {
     materie_prime: "Commodities",
     indici: "Indices",
   },
+  de: {
+    azioni: "Aktien",
+    forex: "Forex",
+    cripto: "Krypto",
+    materie_prime: "Rohstoffe",
+    indici: "Indizes",
+  },
+  ar: {
+    azioni: "الأسهم",
+    forex: "الفوركس",
+    cripto: "العملات المشفّرة",
+    materie_prime: "السلع",
+    indici: "المؤشرات",
+  },
 };
 
 export const goalLabels: Record<Lang, Record<Goal, string>> = {
@@ -53,6 +69,18 @@ export const goalLabels: Record<Lang, Record<Goal, string>> = {
     protezione: "Protect my capital",
     apprendimento: "Learn and improve",
     automazione: "Automate my trades",
+  },
+  de: {
+    profitti: "Gewinne maximieren",
+    protezione: "Kapital schützen",
+    apprendimento: "Lernen und besser werden",
+    automazione: "Trades automatisieren",
+  },
+  ar: {
+    profitti: "تعظيم الأرباح",
+    protezione: "حماية رأس المال",
+    apprendimento: "التعلّم والتحسّن",
+    automazione: "أتمتة صفقاتي",
   },
 };
 
@@ -93,6 +121,24 @@ const STRATEGIES: Record<Lang, Record<Strategy, string>> = {
     assisted: "Assisted automation",
     full: "Full AI automation",
   },
+  de: {
+    aggressive: "Aggressives KI-Swing",
+    balanced: "Ausgewogenes KI-Swing",
+    guided: "Geführtes KI-Swing",
+    protect: "KI-Kapitalschutz",
+    academy: "Vettro-Akademie-Pfad",
+    assisted: "Assistierte Automatisierung",
+    full: "Vollständige KI-Automatisierung",
+  },
+  ar: {
+    aggressive: "سوينغ بالذكاء الاصطناعي – جريء",
+    balanced: "سوينغ بالذكاء الاصطناعي – متوازن",
+    guided: "سوينغ بالذكاء الاصطناعي – موجَّه",
+    protect: "حماية رأس المال بالذكاء الاصطناعي",
+    academy: "مسار أكاديمية Vettro",
+    assisted: "أتمتة مُساعَدة",
+    full: "أتمتة كاملة بالذكاء الاصطناعي",
+  },
 };
 
 export function suggestedStrategy(goal: Goal, experience: Experience, lang: Lang): string {
@@ -111,6 +157,8 @@ const RISK: Record<Lang, Record<Experience, string>> = {
   it: { principiante: "Prudente", intermedio: "Media", avanzato: "Alta" },
   es: { principiante: "Prudente", intermedio: "Moderado", avanzato: "Alto" },
   en: { principiante: "Cautious", intermedio: "Moderate", avanzato: "High" },
+  de: { principiante: "Vorsichtig", intermedio: "Mittel", avanzato: "Hoch" },
+  ar: { principiante: "حذِر", intermedio: "متوسط", avanzato: "مرتفع" },
 };
 
 export function riskProfile(experience: Experience, lang: Lang): string {

@@ -49,10 +49,11 @@ function allowedAutologinHosts(apiHost: string) {
 
 // Lead country from the visitor's IP (Cloudflare's CF-IPCountry header; the
 // site only accepts traffic through Cloudflare, which sets it): Italy → IT,
-// Spain → ES, anywhere else or unknown → LEAD_COUNTRY_FALLBACK (default GB).
+// Spain → ES, Germany → DE, Saudi Arabia → SA, anywhere else or unknown →
+// LEAD_COUNTRY_FALLBACK (default GB).
 function leadCountry() {
   const code = (getRequestHeader("cf-ipcountry") ?? "").toUpperCase();
-  if (code === "IT" || code === "ES") return code;
+  if (code === "IT" || code === "ES" || code === "DE" || code === "SA") return code;
   const fallback = process.env["LEAD_COUNTRY_FALLBACK"] ?? "";
   return /^[A-Z]{2}$/.test(fallback) ? fallback : "GB";
 }
@@ -88,7 +89,7 @@ export const submitLead = createServerFn({ method: "POST" })
     const apiUrl = new URL(baseUrl);
     const apiOrigin = apiUrl.origin;
 
-    // Same IT/ES/GB mobile rules as the form; the browser checks first, this
+    // Same IT/ES/GB/DE/SA mobile rules as the form; the browser checks first, this
     // stops anything that skipped it.
     const phone = checkPhone(data.phone, data.phoneCountry);
     if (!phone.ok) {

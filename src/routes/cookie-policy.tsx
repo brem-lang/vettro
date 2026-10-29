@@ -6,6 +6,8 @@ const META = {
   it: { title: "Cookie Policy — Vettro", description: "Informazioni sui cookie e sulle tecnologie utilizzate dal sito Vettro.", og: "Come Vettro utilizza cookie e tecnologie analoghe." },
   es: { title: "Política de Cookies — Vettro", description: "Información sobre las cookies y las tecnologías que utiliza el sitio de Vettro.", og: "Cómo utiliza Vettro las cookies y tecnologías similares." },
   en: { title: "Cookie Policy — Vettro", description: "Information about the cookies and technologies used by the Vettro site.", og: "How Vettro uses cookies and similar technologies." },
+  de: { title: "Cookie-Richtlinie — Vettro", description: "Informationen zu den Cookies und Technologien, die die Vettro-Website verwendet.", og: "Wie Vettro Cookies und ähnliche Technologien verwendet." },
+  ar: { title: "سياسة ملفات تعريف الارتباط — Vettro", description: "معلومات حول ملفات تعريف الارتباط والتقنيات التي يستخدمها موقع Vettro.", og: "كيف يستخدم Vettro ملفات تعريف الارتباط والتقنيات المشابهة." },
 } satisfies Record<Lang, Record<string, string>>;
 
 export const Route = createFileRoute("/cookie-policy")({
@@ -67,6 +69,34 @@ const CONTENT: Record<Lang, LegalContent> = {
         <section><h2>4. Managing cookies in your browser</h2><p>You can delete or block cookies in your browser settings. Blocking necessary technologies may stop some site features from working properly.</p></section>
         <section><h2>5. Duration</h2><p>Session cookies normally expire when you close your browser; persistent cookies remain for the period set by the provider or until they are removed. Actual durations will need updating if new tools are added.</p></section>
         <section><h2>6. Updates and contact</h2><p>This Cookie Policy will be updated if the technologies used change. Official contact details will be published on this page.</p></section>
+      </>
+    ),
+  },
+  de: {
+    title: "Cookie-Richtlinie",
+    intro: "Diese Seite erklärt, was Cookies sind und welche Technologien beim Besuch von Vettro verwendet werden können.",
+    body: (
+      <>
+        <section><h2>1. Was Cookies sind</h2><p>Cookies sind kleine Dateien, die dein Browser speichert. Sie können eine Seite funktionsfähig machen, eine Sitzung offen halten, Einstellungen speichern oder zusammengefasste Informationen über die Nutzung der Website erfassen.</p></section>
+        <section><h2>2. Unbedingt erforderliche Cookies</h2><p>Vettro kann Technologien verwenden, die für Sicherheit, die Weiterleitung von Anfragen, die Missbrauchsverhinderung und das ordnungsgemäße Funktionieren des Formulars unerlässlich sind. Diese Technologien erfordern keine Einwilligung, wenn sie unbedingt erforderlich sind. Dazu gehört das Sitzungs-Cookie <code>site_lang_s</code>, das deine gewählte Sprache speichert, bis du den Browser schließt.</p></section>
+        <section><h2>3. Analyse und Marketing</h2><p>Diese Richtlinie nennt derzeit keine optionalen Profiling- oder Werbewerkzeuge. Sollten solche eingeführt werden, werden sie hier aufgeführt und, sofern erforderlich, erst nach der Entscheidung des Nutzers über ein Einwilligungssystem aktiviert.</p></section>
+        <section><h2>4. Cookies im Browser verwalten</h2><p>Du kannst Cookies in den Einstellungen deines Browsers löschen oder blockieren. Das Blockieren notwendiger Technologien kann dazu führen, dass einige Funktionen der Website nicht richtig funktionieren.</p></section>
+        <section><h2>5. Speicherdauer</h2><p>Sitzungs-Cookies laufen in der Regel ab, wenn du den Browser schließt; dauerhafte Cookies bleiben für den vom Anbieter festgelegten Zeitraum oder bis zu ihrer Löschung bestehen. Die tatsächlichen Speicherdauern müssen aktualisiert werden, wenn neue Werkzeuge hinzukommen.</p></section>
+        <section><h2>6. Aktualisierungen und Kontakt</h2><p>Diese Cookie-Richtlinie wird aktualisiert, wenn sich die verwendeten Technologien ändern. Offizielle Kontaktdaten werden auf dieser Seite veröffentlicht.</p></section>
+      </>
+    ),
+  },
+  ar: {
+    title: "سياسة ملفات تعريف الارتباط",
+    intro: "توضّح هذه الصفحة ماهية ملفات تعريف الارتباط والتقنيات التي قد تُستخدم أثناء تصفّحك لموقع Vettro.",
+    body: (
+      <>
+        <section><h2>1. ما هي ملفات تعريف الارتباط</h2><p>ملفات تعريف الارتباط (الكوكيز) ملفات صغيرة يحفظها متصفّحك. يمكنها أن تجعل الصفحة تعمل، أو تُبقي الجلسة مفتوحة، أو تتذكّر تفضيلاتك، أو تجمع معلومات إجمالية عن كيفية استخدام الموقع.</p></section>
+        <section><h2>2. ملفات تعريف الارتباط الضرورية للغاية</h2><p>قد يستخدم Vettro تقنيات ضرورية للأمان وتوجيه الطلبات ومنع إساءة الاستخدام وحسن عمل النموذج. ولا تتطلّب هذه التقنيات موافقة عندما تكون ضرورية للغاية. ومن بينها ملف الجلسة <code>site_lang_s</code> الذي يتذكّر اللغة التي اخترتها حتى تغلق المتصفّح.</p></section>
+        <section><h2>3. التحليلات والتسويق</h2><p>لا تذكر هذه السياسة حاليًا أي أدوات اختيارية للتنميط أو الإعلان. وإذا أُضيفت أي أدوات من هذا النوع، فستُدرج هنا، ولن تُفعَّل، حيثما يلزم، إلا بعد أن يختار المستخدم عبر نظام للموافقة.</p></section>
+        <section><h2>4. إدارة ملفات تعريف الارتباط في متصفّحك</h2><p>يمكنك حذف ملفات تعريف الارتباط أو حظرها من إعدادات متصفّحك. وقد يؤدي حظر التقنيات الضرورية إلى توقّف بعض ميزات الموقع عن العمل بشكل صحيح.</p></section>
+        <section><h2>5. المدة</h2><p>تنتهي ملفات تعريف الارتباط الخاصة بالجلسة عادةً عند إغلاق المتصفّح؛ أما الملفات الدائمة فتبقى للمدة التي يحدّدها المزوّد أو حتى حذفها. وسيتعيّن تحديث المدد الفعلية إذا أُضيفت أدوات جديدة.</p></section>
+        <section><h2>6. التحديثات والتواصل</h2><p>سيتم تحديث سياسة ملفات تعريف الارتباط هذه إذا تغيّرت التقنيات المستخدمة. وستُنشر بيانات التواصل الرسمية على هذه الصفحة.</p></section>
       </>
     ),
   },

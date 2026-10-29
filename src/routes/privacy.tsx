@@ -6,6 +6,8 @@ const META = {
   it: { title: "Privacy Policy — Vettro", description: "Informazioni sul trattamento dei dati personali raccolti da Vettro.", og: "Come Vettro raccoglie, utilizza e protegge i dati personali." },
   es: { title: "Política de Privacidad — Vettro", description: "Información sobre el tratamiento de los datos personales recopilados por Vettro.", og: "Cómo Vettro recopila, utiliza y protege los datos personales." },
   en: { title: "Privacy Policy — Vettro", description: "Information about how Vettro processes the personal data it collects.", og: "How Vettro collects, uses and protects personal data." },
+  de: { title: "Datenschutzerklärung — Vettro", description: "Informationen darüber, wie Vettro die erhobenen personenbezogenen Daten verarbeitet.", og: "Wie Vettro personenbezogene Daten erhebt, verwendet und schützt." },
+  ar: { title: "سياسة الخصوصية — Vettro", description: "معلومات حول كيفية معالجة Vettro للبيانات الشخصية التي يجمعها.", og: "كيف يجمع Vettro البيانات الشخصية ويستخدمها ويحميها." },
 } satisfies Record<Lang, Record<string, string>>;
 
 export const Route = createFileRoute("/privacy")({
@@ -76,6 +78,40 @@ const CONTENT: Record<Lang, LegalContent> = {
         <section><h2>7. Your rights</h2><p>You can request access, rectification, erasure, restriction, portability or object to processing, and withdraw consent without affecting processing already carried out. You can also lodge a complaint with the competent data protection authority.</p></section>
         <section><h2>8. Minors</h2><p>Vettro is not intended for minors and does not knowingly collect data from people who cannot legally use financial or trading services.</p></section>
         <section><h2>9. Updates</h2><p>This policy may be updated to reflect changes to the service or the law. The latest date is shown at the top of the page.</p></section>
+      </>
+    ),
+  },
+  de: {
+    title: "Datenschutzerklärung",
+    intro: "Diese Erklärung beschreibt, welche Daten wir über Vettro erheben, warum wir sie verwenden und welche Wahlmöglichkeiten du hast.",
+    body: (
+      <>
+        <section><h2>1. Verantwortlicher und Kontakt</h2><p>Der Dienst wird unter der Marke Vettro angeboten. Die vollständigen Angaben zum Verantwortlichen und die offizielle Datenschutz-Kontaktadresse werden veröffentlicht, bevor die Website kommerziell genutzt wird.</p></section>
+        <section><h2>2. Erhobene Daten</h2><p>Wenn du den Fragebogen ausfüllst, erheben wir deinen Vornamen, Nachnamen, deine E-Mail-Adresse, Telefonnummer sowie deine Antworten zu Erfahrung, interessierenden Märkten und Ziel. Wir können außerdem technische Daten erhalten, die für die Sicherheit und den Betrieb der Website unerlässlich sind.</p></section>
+        <section><h2>3. Zwecke der Verarbeitung</h2><ul><li>um deine Anfrage zu erfassen und deine persönliche Zusammenfassung anzuzeigen;</li><li>um auf Anfragen der Nutzer zu antworten;</li><li>um die Website vor Missbrauch und Fehlfunktionen zu schützen;</li><li>um gesetzliche Pflichten zu erfüllen.</li></ul><p>Werbliche Mitteilungen erfordern eine gesonderte Einwilligung, sofern das Gesetz dies vorschreibt.</p></section>
+        <section><h2>4. Rechtsgrundlage</h2><p>Die Verarbeitung beruht auf der Durchführung der Anfrage des Nutzers, auf der Einwilligung, sofern erforderlich, auf gesetzlichen Pflichten und auf dem berechtigten Interesse an der Sicherheit des Dienstes.</p></section>
+        <section><h2>5. Speicherung und Weitergabe</h2><p>Die Daten werden so lange gespeichert, wie es für die genannten Zwecke und die geltenden Pflichten erforderlich ist. Sie können von beauftragten technischen Dienstleistern ausschließlich zur Bereitstellung und zum Schutz des Dienstes verarbeitet oder offengelegt werden, wenn das Gesetz es verlangt. Wir verkaufen keine personenbezogenen Daten.</p></section>
+        <section><h2>6. Übermittlungen</h2><p>Verarbeitet ein Dienstleister Daten außerhalb des Europäischen Wirtschaftsraums, werden die nach geltendem Recht erforderlichen Garantien angewendet, bei Bedarf einschließlich Standardvertragsklauseln.</p></section>
+        <section><h2>7. Deine Rechte</h2><p>Du kannst Auskunft, Berichtigung, Löschung, Einschränkung und Datenübertragbarkeit verlangen oder der Verarbeitung widersprechen sowie deine Einwilligung widerrufen, ohne dass die bereits erfolgte Verarbeitung berührt wird. Du kannst außerdem Beschwerde bei der zuständigen Datenschutzbehörde einlegen.</p></section>
+        <section><h2>8. Minderjährige</h2><p>Vettro richtet sich nicht an Minderjährige und erhebt wissentlich keine Daten von Personen, die Finanz- oder Tradingdienste rechtlich nicht nutzen dürfen.</p></section>
+        <section><h2>9. Aktualisierungen</h2><p>Diese Erklärung kann aktualisiert werden, um Änderungen des Dienstes oder der Rechtslage widerzuspiegeln. Das aktuelle Datum steht oben auf der Seite.</p></section>
+      </>
+    ),
+  },
+  ar: {
+    title: "سياسة الخصوصية",
+    intro: "توضّح هذه السياسة البيانات التي نجمعها عبر Vettro، وسبب استخدامنا لها، والخيارات المتاحة لك.",
+    body: (
+      <>
+        <section><h2>1. المسؤول عن البيانات وجهة التواصل</h2><p>تُقدَّم الخدمة تحت علامة Vettro. وستُنشر البيانات التعريفية الكاملة للمسؤول عن معالجة البيانات وجهة التواصل الرسمية الخاصة بالخصوصية قبل استخدام الموقع تجاريًا.</p></section>
+        <section><h2>2. البيانات التي نجمعها</h2><p>عند إكمال الاستبيان نجمع اسمك الأول واسم العائلة وعنوان بريدك الإلكتروني ورقم هاتفك وإجاباتك حول الخبرة والأسواق التي تهمّك والهدف. وقد نتلقّى أيضًا بيانات تقنية ضرورية لأمان الموقع وتشغيله.</p></section>
+        <section><h2>3. أغراض المعالجة</h2><ul><li>تسجيل طلبك وعرض ملخصك المخصّص؛</li><li>الردّ على طلبات المستخدمين؛</li><li>حماية الموقع من إساءة الاستخدام والأعطال؛</li><li>الوفاء بالالتزامات القانونية.</li></ul><p>تتطلّب أي رسائل ترويجية موافقة منفصلة حيثما يشترط القانون ذلك.</p></section>
+        <section><h2>4. الأساس القانوني</h2><p>تستند المعالجة إلى تنفيذ طلب المستخدم، والموافقة حيثما تلزم، والالتزامات القانونية، والمصلحة المشروعة في الحفاظ على أمان الخدمة.</p></section>
+        <section><h2>5. الاحتفاظ والمشاركة</h2><p>تُحفظ البيانات طوال المدة اللازمة للأغراض المذكورة والالتزامات المعمول بها. وقد يعالجها مزوّدون تقنيون معيّنون لغرض تقديم الخدمة وحمايتها فقط، أو يُفصح عنها حيثما يقتضي القانون ذلك. نحن لا نبيع البيانات الشخصية.</p></section>
+        <section><h2>6. نقل البيانات</h2><p>إذا عالج أحد المزوّدين البيانات خارج المنطقة الاقتصادية الأوروبية، فستُطبَّق الضمانات التي يشترطها القانون المعمول به، بما في ذلك البنود التعاقدية القياسية عند الضرورة.</p></section>
+        <section><h2>7. حقوقك</h2><p>يمكنك طلب الوصول إلى بياناتك أو تصحيحها أو حذفها أو تقييد معالجتها أو نقلها، أو الاعتراض على المعالجة، وسحب موافقتك دون التأثير على المعالجة التي تمّت بالفعل. كما يمكنك تقديم شكوى إلى سلطة حماية البيانات المختصة.</p></section>
+        <section><h2>8. القاصرون</h2><p>Vettro غير موجّه للقاصرين، ولا يجمع عن قصد بيانات من أشخاص لا يحق لهم قانونًا استخدام الخدمات المالية أو خدمات التداول.</p></section>
+        <section><h2>9. التحديثات</h2><p>قد يتم تحديث هذه السياسة لتعكس التغييرات في الخدمة أو في القانون. ويظهر أحدث تاريخ في أعلى الصفحة.</p></section>
       </>
     ),
   },

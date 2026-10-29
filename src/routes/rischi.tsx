@@ -6,6 +6,8 @@ const META = {
   it: { title: "Informativa sui rischi — Vettro", description: "Rischi importanti da conoscere prima di assumere decisioni di trading o investimento.", og: "Informazioni essenziali sui rischi del trading e sui limiti degli strumenti AI." },
   es: { title: "Aviso de riesgos — Vettro", description: "Riesgos importantes que conviene conocer antes de tomar decisiones de trading o inversión.", og: "Información esencial sobre los riesgos del trading y los límites de las herramientas de IA." },
   en: { title: "Risk disclosure — Vettro", description: "Important risks to understand before making trading or investment decisions.", og: "Essential information on the risks of trading and the limits of AI tools." },
+  de: { title: "Risikohinweis — Vettro", description: "Wichtige Risiken, die du kennen solltest, bevor du Trading- oder Anlageentscheidungen triffst.", og: "Wesentliche Informationen zu den Risiken des Tradings und den Grenzen von KI-Werkzeugen." },
+  ar: { title: "بيان المخاطر — Vettro", description: "مخاطر مهمة يجب معرفتها قبل اتخاذ قرارات التداول أو الاستثمار.", og: "معلومات أساسية حول مخاطر التداول وحدود أدوات الذكاء الاصطناعي." },
 } satisfies Record<Lang, Record<string, string>>;
 
 export const Route = createFileRoute("/rischi")({
@@ -70,6 +72,36 @@ const CONTENT: Record<Lang, LegalContent> = {
         <section><h2>5. Operational risks</h2><p>Network outages, delays, pricing errors, technical problems, cyberattacks or unavailable third-party services can prevent or distort access to information.</p></section>
         <section><h2>6. Past results and simulations</h2><p>Past results are not indicative of future results. Simulations, examples and hypothetical data do not necessarily reflect real conditions, costs, liquidity, taxation or user behaviour.</p></section>
         <section><h2>7. Personal responsibility</h2><p>You are responsible for your decisions. Before trading, learn about the product's features, costs and tax treatment, and consider consulting an authorised, independent professional.</p></section>
+      </>
+    ),
+  },
+  de: {
+    title: "Risikohinweis",
+    intro: "Bevor du tradest, ist es wichtig zu verstehen, dass jede Transaktion mit Unsicherheit verbunden ist und kein Werkzeug ein Ergebnis garantieren kann.",
+    body: (
+      <>
+        <section><h2>1. Möglicher Kapitalverlust</h2><p>Der Wert von Finanzinstrumenten kann schnell steigen oder fallen. Du kannst einen Teil oder das gesamte investierte Kapital verlieren. Verwende kein Geld, das du für notwendige Ausgaben brauchst, und prüfe stets, ob du einen Verlust tragen kannst.</p></section>
+        <section><h2>2. Hebel und Volatilität</h2><p>Gehebelte Produkte, Währungen, Krypto-Assets und Derivate können sowohl Gewinne als auch Verluste verstärken. Kleine Marktbewegungen können erhebliche Auswirkungen, Nachschussforderungen oder automatische Schließungen auslösen.</p></section>
+        <section><h2>3. Grenzen der künstlichen Intelligenz</h2><p>Ein KI-System kann unvollständige, veraltete oder fehlerhafte Informationen verwenden und außergewöhnliche Bedingungen falsch einschätzen. Die Ergebnisse hängen von den verfügbaren Daten und Annahmen ab. Die KI kennt deine persönliche Situation nicht unbedingt und kann den Markt nicht mit Sicherheit vorhersagen.</p></section>
+        <section><h2>4. Keine Beratung</h2><p>Die Inhalte, der Fragebogen und die Zusammenfassung von Vettro sind allgemein und informativ. Sie stellen keine persönliche Empfehlung, kein Angebot, keine Aufforderung und keine Einladung zum Kauf oder Verkauf von Finanzinstrumenten dar.</p></section>
+        <section><h2>5. Operative Risiken</h2><p>Netzwerkausfälle, Verzögerungen, Preisfehler, technische Probleme, Cyberangriffe oder nicht verfügbare Dienste Dritter können den Zugang zu Informationen verhindern oder verfälschen.</p></section>
+        <section><h2>6. Frühere Ergebnisse und Simulationen</h2><p>Frühere Ergebnisse sind kein Hinweis auf zukünftige Ergebnisse. Simulationen, Beispiele und hypothetische Daten spiegeln nicht unbedingt reale Bedingungen, Kosten, Liquidität, Besteuerung oder das Verhalten der Nutzer wider.</p></section>
+        <section><h2>7. Eigenverantwortung</h2><p>Du bist für deine Entscheidungen verantwortlich. Informiere dich vor dem Handel über die Merkmale, Kosten und steuerliche Behandlung des Produkts und ziehe in Betracht, eine zugelassene, unabhängige Fachperson zu konsultieren.</p></section>
+      </>
+    ),
+  },
+  ar: {
+    title: "بيان المخاطر",
+    intro: "قبل التداول، من المهم أن تدرك أن كل صفقة تنطوي على عدم يقين وأنه لا توجد أداة يمكنها ضمان نتيجة.",
+    body: (
+      <>
+        <section><h2>1. احتمال خسارة رأس المال</h2><p>يمكن أن ترتفع قيمة الأدوات المالية أو تنخفض بسرعة. قد تخسر جزءًا من رأس المال المستثمر أو كله. لا تستخدم أموالًا تحتاجها للنفقات الأساسية، وقيّم دائمًا قدرتك على تحمّل الخسارة.</p></section>
+        <section><h2>2. الرافعة المالية والتقلّب</h2><p>يمكن للمنتجات ذات الرافعة المالية والعملات والأصول المشفّرة والمشتقات أن تضخّم الأرباح والخسائر على حدّ سواء. وقد تؤدي تحركات السوق الصغيرة إلى آثار كبيرة أو طلبات تغطية للهامش أو إغلاقات تلقائية.</p></section>
+        <section><h2>3. حدود الذكاء الاصطناعي</h2><p>قد يستخدم نظام الذكاء الاصطناعي معلومات ناقصة أو قديمة أو خاطئة، وقد يسيء تفسير الظروف الاستثنائية. تعتمد النتائج على البيانات والافتراضات المتاحة. ولا يعرف الذكاء الاصطناعي بالضرورة وضعك الشخصي، ولا يمكنه التنبؤ بالسوق بيقين.</p></section>
+        <section><h2>4. لا استشارات</h2><p>محتوى Vettro والاستبيان والملخص عامة وذات طابع معلوماتي. ولا تمثّل توصية شخصية أو عرضًا أو التماسًا أو دعوة لشراء الأدوات المالية أو بيعها.</p></section>
+        <section><h2>5. المخاطر التشغيلية</h2><p>قد تؤدي انقطاعات الشبكة أو التأخيرات أو أخطاء الأسعار أو المشكلات التقنية أو الهجمات الإلكترونية أو عدم توفّر خدمات الأطراف الثالثة إلى منع الوصول إلى المعلومات أو تشويهه.</p></section>
+        <section><h2>6. النتائج السابقة والمحاكاة</h2><p>النتائج السابقة ليست مؤشرًا على النتائج المستقبلية. ولا تعكس المحاكاة والأمثلة والبيانات الافتراضية بالضرورة الظروف الحقيقية أو التكاليف أو السيولة أو الضرائب أو سلوك المستخدم.</p></section>
+        <section><h2>7. المسؤولية الشخصية</h2><p>أنت مسؤول عن قراراتك. قبل التداول، اطّلع على خصائص المنتج وتكاليفه ومعاملته الضريبية، وفكّر في استشارة مختص مرخّص ومستقل.</p></section>
       </>
     ),
   },

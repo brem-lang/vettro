@@ -6,6 +6,8 @@ const META = {
   it: { title: "Termini e condizioni — Vettro", description: "Condizioni di utilizzo del sito e dei contenuti informativi Vettro.", og: "Le regole che disciplinano l’utilizzo di Vettro." },
   es: { title: "Términos y condiciones — Vettro", description: "Condiciones de uso del sitio y de los contenidos informativos de Vettro.", og: "Las normas que regulan el uso de Vettro." },
   en: { title: "Terms and conditions — Vettro", description: "Terms of use for the Vettro site and its informational content.", og: "The rules that govern the use of Vettro." },
+  de: { title: "Allgemeine Geschäftsbedingungen — Vettro", description: "Nutzungsbedingungen der Vettro-Website und ihrer Informationsinhalte.", og: "Die Regeln für die Nutzung von Vettro." },
+  ar: { title: "الشروط والأحكام — Vettro", description: "شروط استخدام موقع Vettro ومحتواه المعلوماتي.", og: "القواعد التي تحكم استخدام Vettro." },
 } satisfies Record<Lang, Record<string, string>>;
 
 export const Route = createFileRoute("/termini")({
@@ -76,6 +78,40 @@ const CONTENT: Record<Lang, LegalContent> = {
         <section><h2>7. Third-party links and services</h2><p>External services operate under their own terms. A link does not imply approval, control or guarantee by Vettro.</p></section>
         <section><h2>8. Changes</h2><p>These terms may be updated. By continuing to use the site after changes are published, you accept the updated version to the extent permitted by law.</p></section>
         <section><h2>9. Governing law</h2><p>These terms are interpreted under the law applicable to the service operator, without limiting the mandatory rights granted to consumers. The operator's full details and the competent court must be added before commercial use.</p></section>
+      </>
+    ),
+  },
+  de: {
+    title: "Allgemeine Geschäftsbedingungen",
+    intro: "Mit der Nutzung von Vettro akzeptierst du die Bedingungen auf dieser Seite. Bitte lies sie sorgfältig, bevor du deine Daten übermittelst.",
+    body: (
+      <>
+        <section><h2>1. Umfang des Dienstes</h2><p>Vettro bietet Informationsinhalte und einen unverbindlichen Fragebogen zu Marktanalyse und Risikomanagement. Der Dienst stellt keine Finanz-, Steuer-, Rechts- oder Anlageberatung dar und ersetzt keine fachliche Beurteilung.</p></section>
+        <section><h2>2. Keine Renditegarantie</h2><p>Märkte und Finanzinstrumente können Verluste verursachen, einschließlich eines Totalverlusts. Vettro verspricht keine Gewinne, Ergebnisse, genauen Prognosen oder die Beseitigung von Risiken. Beispiele, Profile und vorgeschlagene Wege dienen nur der Veranschaulichung.</p></section>
+        <section><h2>3. Voraussetzungen für Nutzer</h2><p>Du musst die in deinem Land für die Nutzung der Website erforderliche Geschäftsfähigkeit besitzen. Du bist für die Richtigkeit der von dir angegebenen Daten und für Entscheidungen verantwortlich, die du auf Grundlage der abgerufenen Informationen triffst.</p></section>
+        <section><h2>4. Zulässige Nutzung</h2><p>Du darfst die Website nicht für rechtswidrige Zwecke nutzen, ihre Sicherheit oder Verfügbarkeit nicht beeinträchtigen, keine Daten ohne Genehmigung erheben, dich nicht als andere Person ausgeben und Inhalte nicht irreführend wiedergeben.</p></section>
+        <section><h2>5. Geistiges Eigentum</h2><p>Die Marke Vettro, Texte, Grafiken und Materialien sind durch geltendes Recht geschützt. Die persönliche Nutzung der Website ist erlaubt; jede kommerzielle Nutzung erfordert eine schriftliche Genehmigung.</p></section>
+        <section><h2>6. Verfügbarkeit und Haftung</h2><p>Der Dienst kann geändert, ausgesetzt oder eingestellt werden. Soweit gesetzlich zulässig, haftet Vettro nicht für Verluste aus finanziellen Entscheidungen der Nutzer, vorübergehender Nichtverfügbarkeit, unvollständigen Marktdaten oder Inhalten Dritter.</p></section>
+        <section><h2>7. Links und Dienste Dritter</h2><p>Externe Dienste unterliegen ihren eigenen Bedingungen. Ein Link bedeutet keine Billigung, Kontrolle oder Gewährleistung durch Vettro.</p></section>
+        <section><h2>8. Änderungen</h2><p>Diese Bedingungen können aktualisiert werden. Wenn du die Website nach der Veröffentlichung von Änderungen weiter nutzt, akzeptierst du die aktualisierte Fassung im gesetzlich zulässigen Umfang.</p></section>
+        <section><h2>9. Anwendbares Recht</h2><p>Diese Bedingungen werden nach dem für den Betreiber des Dienstes geltenden Recht ausgelegt, ohne die zwingenden Rechte von Verbrauchern einzuschränken. Die vollständigen Angaben zum Betreiber und das zuständige Gericht müssen vor der kommerziellen Nutzung ergänzt werden.</p></section>
+      </>
+    ),
+  },
+  ar: {
+    title: "الشروط والأحكام",
+    intro: "باستخدامك Vettro فإنك توافق على الشروط الواردة في هذه الصفحة. يُرجى قراءتها بعناية قبل إرسال بياناتك.",
+    body: (
+      <>
+        <section><h2>1. نطاق الخدمة</h2><p>يقدّم Vettro محتوى معلوماتيًا واستبيانًا استرشاديًا حول تحليل الأسواق وإدارة المخاطر. ولا تُعدّ الخدمة استشارة مالية أو ضريبية أو قانونية أو استثمارية، ولا تحلّ محلّ تقييم مهني.</p></section>
+        <section><h2>2. لا ضمان للعوائد</h2><p>قد تتسبّب الأسواق والأدوات المالية في خسائر، بما في ذلك الخسارة الكاملة. لا يَعِد Vettro بأرباح أو نتائج أو توقعات دقيقة أو بإزالة المخاطر. والأمثلة والملفات والمسارات المقترحة للتوضيح فقط.</p></section>
+        <section><h2>3. متطلبات المستخدم</h2><p>يجب أن تتمتّع بالأهلية القانونية اللازمة لاستخدام الموقع في بلدك. وأنت مسؤول عن دقة البيانات التي تقدّمها وعن القرارات التي تتخذها بناءً على المعلومات التي تطّلع عليها.</p></section>
+        <section><h2>4. الاستخدام المسموح</h2><p>لا يجوز لك استخدام الموقع في أنشطة غير قانونية، أو محاولة الإضرار بأمانه أو توفّره، أو جمع البيانات دون إذن، أو انتحال شخصية الآخرين، أو إعادة إنتاج المحتوى بطريقة مضلّلة.</p></section>
+        <section><h2>5. الملكية الفكرية</h2><p>علامة Vettro والنصوص والرسومات والمواد محمية بموجب القانون المعمول به. يُسمح بالاستخدام الشخصي للموقع، أما أي استخدام تجاري فيتطلّب إذنًا كتابيًا.</p></section>
+        <section><h2>6. التوفّر والمسؤولية</h2><p>قد تُعدَّل الخدمة أو تُعلَّق أو تُوقَف. وفي الحدود التي يسمح بها القانون، لا يتحمّل Vettro المسؤولية عن الخسائر الناتجة عن القرارات المالية للمستخدمين، أو عدم التوفّر المؤقت، أو بيانات السوق غير المكتملة، أو محتوى الأطراف الثالثة.</p></section>
+        <section><h2>7. روابط وخدمات الأطراف الثالثة</h2><p>تعمل الخدمات الخارجية وفق شروطها الخاصة. ولا يعني وجود رابط موافقة Vettro عليه أو تحكّمه فيه أو ضمانه له.</p></section>
+        <section><h2>8. التغييرات</h2><p>قد يتم تحديث هذه الشروط. وباستمرارك في استخدام الموقع بعد نشر التغييرات، فإنك تقبل النسخة المحدّثة في الحدود التي يسمح بها القانون.</p></section>
+        <section><h2>9. القانون الواجب التطبيق</h2><p>تُفسَّر هذه الشروط وفقًا للقانون المطبّق على مشغّل الخدمة، دون تقييد الحقوق الإلزامية الممنوحة للمستهلكين. ويجب إضافة البيانات الكاملة للمشغّل والمحكمة المختصة قبل الاستخدام التجاري.</p></section>
       </>
     ),
   },

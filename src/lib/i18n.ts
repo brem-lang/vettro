@@ -1,20 +1,38 @@
-// Site language (IT / ES / EN). Order of precedence:
+// Site language (IT / ES / EN / DE / AR). Order of precedence:
 //   1. `?lang=xx` in the URL (e.g. for ad campaigns); `?lang=auto` clears a choice
 //   2. the visitor's own choice this browser session, kept in a `site_lang_s`
 //      session cookie shared with the static sites on this domain
 //   3. the visitor's country from Cloudflare's CF-IPCountry header
-//      (Italy → it, Spain → es, anything else or unknown → en)
+//      (Italy → it, Spain → es, Germany → de, Saudi Arabia → ar,
+//      anything else or unknown → en)
 // The server resolves this on first paint and writes the country into
 // <html data-geo> so client-side navigation reaches the same answer.
 import { useRouteContext, useRouter } from "@tanstack/react-router";
 import { createIsomorphicFn } from "@tanstack/react-start";
 import { getCookie, getRequestHeader, getRequestUrl } from "@tanstack/react-start/server";
 
-export const LANGS = ["it", "es", "en"] as const;
+export const LANGS = ["it", "es", "en", "de", "ar"] as const;
 export type Lang = (typeof LANGS)[number];
 
-export const LANG_NAMES: Record<Lang, string> = { it: "Italiano", es: "Español", en: "English" };
-export const LANG_LOCALES: Record<Lang, string> = { it: "it-IT", es: "es-ES", en: "en-GB" };
+export const LANG_NAMES: Record<Lang, string> = {
+  it: "Italiano",
+  es: "Español",
+  en: "English",
+  de: "Deutsch",
+  ar: "العربية",
+};
+export const LANG_LOCALES: Record<Lang, string> = {
+  it: "it-IT",
+  es: "es-ES",
+  en: "en-GB",
+  de: "de-DE",
+  ar: "ar-SA",
+};
+
+// Arabic is written right to left; the server sets <html dir> from this.
+export function langDir(lang: Lang): "rtl" | "ltr" {
+  return lang === "ar" ? "rtl" : "ltr";
+}
 
 const COOKIE = "site_lang_s";
 // Year-long cookie + localStorage used before; removed on load so old choices
@@ -28,6 +46,8 @@ function isLang(value: unknown): value is Lang {
 function langForCountry(country: string | undefined): Lang {
   if (country === "IT") return "it";
   if (country === "ES") return "es";
+  if (country === "DE") return "de";
+  if (country === "SA") return "ar";
   return "en";
 }
 
@@ -92,6 +112,7 @@ export function useSetLang() {
       window.history.replaceState(window.history.state, "", url);
     }
     document.documentElement.lang = lang;
+    document.documentElement.dir = langDir(lang);
     void router.invalidate();
   };
 }

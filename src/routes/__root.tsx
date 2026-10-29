@@ -13,7 +13,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { clearOldLang, readCountry, readLang, type Lang } from "../lib/i18n";
+import { clearOldLang, langDir, readCountry, readLang, type Lang } from "../lib/i18n";
 
 const COPY = {
   it: {
@@ -48,6 +48,28 @@ const COPY = {
     errorTitle: "This page didn't load",
     errorText: "Something went wrong. You can try again or go back to the home page.",
     retry: "Try again",
+  },
+  de: {
+    title: "Vettro — KI-Assistent für das Trading",
+    description:
+      "Vettro analysiert die Märkte in Echtzeit, steuert das Risiko und hilft dir, mit Methode zu traden. Registriere dich in wenigen Minuten.",
+    notFound: "Seite nicht gefunden",
+    notFoundText: "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    home: "Zur Startseite",
+    errorTitle: "Diese Seite wurde nicht geladen",
+    errorText: "Etwas ist schiefgelaufen. Du kannst es erneut versuchen oder zur Startseite zurückkehren.",
+    retry: "Erneut versuchen",
+  },
+  ar: {
+    title: "Vettro — مساعد ذكاء اصطناعي للتداول",
+    description:
+      "يحلّل Vettro الأسواق في الوقت الفعلي، ويدير المخاطر، ويساعدك على التداول بمنهجية. سجّل خلال دقائق.",
+    notFound: "الصفحة غير موجودة",
+    notFoundText: "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    home: "العودة إلى الصفحة الرئيسية",
+    errorTitle: "لم يتم تحميل هذه الصفحة",
+    errorText: "حدث خطأ ما. يمكنك المحاولة مرة أخرى أو العودة إلى الصفحة الرئيسية.",
+    retry: "إعادة المحاولة",
   },
 } satisfies Record<Lang, Record<string, string>>;
 
@@ -129,7 +151,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap",
       },
     ],
   }),
@@ -145,7 +167,7 @@ function RootShell({ children }: { children: ReactNode }) {
     select: (ctx) => ({ lang: ctx.lang, country: ctx.country }),
   });
   return (
-    <html lang={lang} data-geo={country}>
+    <html lang={lang} dir={langDir(lang)} data-geo={country}>
       <head>
         <HeadContent />
       </head>
