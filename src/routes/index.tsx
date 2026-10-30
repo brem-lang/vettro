@@ -773,7 +773,8 @@ function Onboarding() {
               <label htmlFor="vettro-phone" className="text-sm font-medium">
                 {f.phone}
               </label>
-              <div className="mt-2 flex gap-2">
+              {/* Dial code left of the number in every language, Arabic included */}
+              <div dir="ltr" className="mt-2 flex gap-2">
                 <select
                   aria-label={f.phoneCountry}
                   dir="ltr"

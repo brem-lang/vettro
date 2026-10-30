@@ -47,17 +47,6 @@ function allowedAutologinHosts(apiHost: string) {
   return new Set([apiHost.toLowerCase(), ...extra]);
 }
 
-// Lead country from the visitor's IP (Cloudflare's CF-IPCountry header; the
-// site only accepts traffic through Cloudflare, which sets it): Italy → IT,
-// Spain → ES, Germany → DE, Saudi Arabia → SA, anywhere else or unknown →
-// LEAD_COUNTRY_FALLBACK (default GB).
-function leadCountry() {
-  const code = (getRequestHeader("cf-ipcountry") ?? "").toUpperCase();
-  if (code === "IT" || code === "ES" || code === "DE" || code === "SA") return code;
-  const fallback = process.env["LEAD_COUNTRY_FALLBACK"] ?? "";
-  return /^[A-Z]{2}$/.test(fallback) ? fallback : "GB";
-}
-
 // Cloudflare sets cf-connecting-ip itself, so prefer it over the
 // client-controllable X-Forwarded-For chain.
 function clientIp() {
@@ -110,7 +99,9 @@ export const submitLead = createServerFn({ method: "POST" })
       return { ok: false as const, reason: "email" as const, emailReason: "domain" as const };
     }
 
-    const countryCode = leadCountry();
+    // Lead country = the mobile's country: the API rejects a mobile that
+    // doesn't belong to country_code (a +49 number sent as GB always failed).
+    const countryCode = phone.country;
     // One log line per lead, no key and no personal data.
     const sent = `sent country_code=${countryCode} click_id=${data.clickId || "-"}`;
 
